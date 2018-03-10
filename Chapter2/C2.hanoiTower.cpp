@@ -1,7 +1,7 @@
-//ģ�⺺ŵ��
+//模拟汉诺塔
 #include <stdio.h>
 
-void move(int n, char x, char y, char z);      //n���������x�ϵĶѽ���y�ƶ���z��
+void move(int n, char x, char y, char z);      //n层的塔，把x上的堆借助y移动到z上
 
 int main(void)
 {
@@ -18,9 +18,9 @@ void move(int n, char x, char y, char z)
 		return;
 	}
 
-	move(n - 1, x, z, y);                  //�Ȱ�ǰn-1������z�Ƶ�y��
-	printf("%c -> %c\n", x, z);       //�ٰ����һ���Ƶ�z��
-	move(n - 1, y, x, z);                  //����n-1����y�Ƶ�z��
+	move(n - 1, x, z, y);                  //先把前n-1个借助z移到y上
+	printf("%c -> %c\n", x, z);           //再把最后一个移到z上
+	move(n - 1, y, x, z);                  //最后把n-1个从y移到z上
 	printf("\n");
 }
 
