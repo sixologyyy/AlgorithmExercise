@@ -1,20 +1,21 @@
-//°Ë»ÊºóÎÊÌâ£¬8*8ÆåÅÌ·Å8¸ö»Êºó£¬ÈÎÒâÁ½¸ö²»ÄÜÔÚÍ¬Ò»ĞĞÁĞ»òĞ±ÏßÉÏ
+//å…«çš‡åé—®é¢˜ï¼Œ8*8æ£‹ç›˜æ”¾8ä¸ªçš‡åï¼Œä»»æ„ä¸¤ä¸ªä¸èƒ½åœ¨åŒä¸€è¡Œåˆ—æˆ–æ–œçº¿ä¸Š
+//æ·±åº¦ä¼˜å…ˆæœç´¢
 
 #define QUEEN 12
 #include <stdio.h>
 
-int solution[20];           //solution[i]±íÊ¾µÚiĞĞµÄÄÄÒ»Î»·Å»Êºó
+int solution[20];           //solution[i]è¡¨ç¤ºç¬¬iè¡Œçš„å“ªä¸€ä½æ”¾çš‡å
 int count = 0;
 int solves = 0;
 
-int test(int row, int col)     //µÚrowĞĞ£¬µÚcolÁĞ·Å»Êºó
+int test(int row, int col)     //ç¬¬rowè¡Œï¼Œç¬¬colåˆ—æ”¾çš‡å
 {
 	int j;
 	for (j = 0; j < row; j++)
 	{
 		if (row - j == solution[row] - solution[j] || row + solution[row] == j + solution[j] || solution[row] == solution[j])
-			//        ÈÎÒ»Ğ±Ïß/                                   ÈÎÒ»Ğ±Ïß\                                     Í¬ĞĞ»òÕßÁĞ
-			//        ±È½Ï (row,solution(raw))ºÍÒÑ·ÅÖÃµÄj¸ö»Êºó
+			//        ä»»ä¸€æ–œçº¿/                                   ä»»ä¸€æ–œçº¿\                                     åŒè¡Œæˆ–è€…åˆ—
+			//        æ¯”è¾ƒ (row,solution(raw))å’Œå·²æ”¾ç½®çš„jä¸ªçš‡å
 			return 0;
 	}
 	return 1;
@@ -47,6 +48,6 @@ void dfs(int row)
 int main(void)
 {
 	dfs(0);
-	printf("×Ü¹²·½°¸£º%d\n", solves);
+	printf("æ€»å…±æ–¹æ¡ˆï¼š%d\n", solves);
 	return 1;
 }
