@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define QUEUE_MAX 50
+#define MAX 50
 
 typedef struct LinkBinTree
 {
@@ -150,7 +150,7 @@ void clearLinkBinTree(LBT *bt)
 	return; 
 }
 
-//  9.先序遍历二叉树，递归方法，oper()为指向函数的指针，代表对某一节点的操作
+//  9.先序遍历，递归，oper()为指向函数的指针，代表对某一节点的操作
 //左斜子树向下依次遍历
 void DLRRecursion(LBT *bt,void (*oper)(LBT *p))
 {     
@@ -161,6 +161,37 @@ void DLRRecursion(LBT *bt,void (*oper)(LBT *p))
 		DLRRecursion(bt->right,oper);
 	}
 	return; 
+}
+
+/*  9.5非递归先序遍历
+
+	访问根p，入栈
+	若p的左子节点不为空，入栈，p指向p左，直到p为空，  注意，因为是先序，父节点先入栈，然后是左子节点，所以入栈的时候就进行操作
+	若p的左子节点为空，出栈，p指向p右，返回上一步
+	直到p和栈都为空
+*/
+void DLRNoRecur(LBT *bt,void (*oper)(LBT *p))
+{
+	LBT *p=bt;
+	LBT *stack[MAX];
+	int top=0;
+
+	while(p!=NULL||top>0)   //指针和栈不为空
+	{
+		while(p!=NULL)     //左子节点不为空时，入栈
+		{
+			stack[++top]=p;    //入栈，注意，入栈时就打印
+			oper(p);
+			p=p->left;
+		}
+		if(top>0)    //左子节点为空，出栈，并转向栈顶的右子节点
+		{
+			p=stack[top--];
+			p=p->right;
+		}
+
+	}
+
 }
 
 //  10.中序遍历，递归
@@ -176,6 +207,37 @@ void LDRRecursion(LBT *bt,void(*oper)(LBT *p))
 	return; 
 }
 
+/*  10.5非递归中序遍历
+
+	访问根p，入栈
+	若p的左子节点不为空，入栈，p指向p左，直到p为空
+	若p的左子节点为空，出栈，p指向p右，返回上一步，   注意，因为是中序，出栈的时候父节点在栈顶，左节点已入栈，所以在出栈的时候进行操作
+	直到p和栈都为空
+*/
+void LDRNoRecur(LBT *bt,void (*oper)(LBT *p))
+{
+	LBT *p=bt;
+	LBT *stack[MAX];
+	int top=0;
+
+	while(p!=NULL||top>0)   //指针和栈不为空
+	{
+		while(p!=NULL)     //左子节点不为空时，入栈
+		{
+			stack[++top]=p;
+			p=p->left;
+		}
+		if(top>0)    //左子节点为空，出栈，并转向栈顶的右子节点
+		{
+			p=stack[top--];
+			oper(p);     //入栈，注意，出栈时才打印
+			p=p->right;
+		}
+
+	}
+
+}
+
 //  11.后续遍历，递归
 //逆序的(右斜子树向下依次遍历)
 void LRDRecursion(LBT *bt,void (*oper)(LBT *p))
@@ -187,6 +249,94 @@ void LRDRecursion(LBT *bt,void (*oper)(LBT *p))
 		oper(bt);
 	}
 	return;
+}
+
+/*  11.3非递归后序遍历（1
+
+	访问根p，入栈
+	若p的左子节点不为空，入栈，p指向p左，直到p为空
+	若p的左子节点为空，出栈，p指向p右，返回上一步
+
+	注意，因为是后序，所以必须访问完左中右节点之后才能进行操作，但是出栈时右节点还没入栈，父节点在栈顶，左节点已入栈
+	所以要记录每个节点入栈的次数，当其第2次出现在栈顶的时候才说明左中右都已访问，才能进行操作
+	即入栈的时候增加一个入栈次数的记录，第1次出栈的时候立即入栈，第2次的时候操作
+	
+	直到p和栈都为空
+*/
+void LRDNoRecur1(LBT *bt,void (*oper)(LBT *p))
+{
+	LBT *p=bt;
+
+	struct tempLBT   //带入栈次数的指针栈
+	{
+		LBT *pp;
+		int firstOut;
+	}stack[MAX];
+
+	int top=0;
+
+	while(p!=NULL||top>0)   //指针和栈不为空
+	{
+		while(p!=NULL)     //左子节点不为空时，入栈
+		{
+			top++;
+			stack[top].pp=p;
+			stack[top].firstOut=1;  //栈里面的位置可能重复用到，要重置firstOut
+			p=p->left;
+		}
+		if(top>0)    //左子节点为空，出栈，并转向栈顶的右子节点
+		{
+			p=stack[top].pp;
+			if(stack[top].firstOut==1)    //第一次出现在栈顶，入栈再出栈，本程序没有定义push()和pop()，直接不需要操作
+			{
+				stack[top].firstOut=2;
+				p=p->right;
+			}
+			else if(stack[top].firstOut==2)     //第二次出现在栈顶，出栈并打印
+			{
+				stack[top].firstOut=1;  //栈里面的位置可能重复用到，要重置firstOut
+				oper(p);
+				top--;
+				p=NULL;   //p指向NULL进行下一次出栈，少了这一句会死循环
+			}
+			else
+				printf("栈错误\n");
+		}
+
+	}
+
+}
+
+/*  11.6非递归后序遍历（2
+
+	注意到后续遍历其实和先序遍历有一定的镜像关系，即右斜子树向下依次遍历，最后所有输出逆序
+	可以在非递归先序遍历的基础上，把优先遍历左子节点改为右子节点，其他相同，此时输出的结果是逆序的后序遍历
+	再设立一个栈，在每次入栈进行操作的时候记录该指针，最后统一输出，就可以实现逆序输出，也就是正确结果了
+*/
+void LRDNoRecur2(LBT *bt,void (*oper)(LBT *p))
+{
+	LBT *p=bt;
+	LBT *stack[MAX];
+	LBT *stackReverse[MAX];
+	int top=0,topR=0;
+
+	while(p!=NULL||top>0)   //指针和栈不为空
+	{
+		while(p!=NULL)     //左子节点不为空时，入栈
+		{
+			stack[++top]=p;    //入栈
+			stackReverse[++topR]=p;     //注意，最后输出完全相反，所以用另一个栈暂时记录输出
+			p=p->right;
+		}
+		if(top>0)    //左子节点为空，出栈，并转向栈顶的右子节点
+		{
+			p=stack[top--];
+			p=p->left;
+		}
+	}
+	while(topR)   //输出反栈
+		oper(stackReverse[topR--]);
+
 }
 
 //  12.操作节点
@@ -201,36 +351,37 @@ void oper(LBT *p) //操作二叉树结点数据
 void levelOfLinkBinTree(LBT *bt,void (*oper)(LBT *p)) //按层遍历 
 {
 	LBT *p;
-	LBT *q[QUEUE_MAX];  //定义一个循环队列，注意这是个指针数组，元素类型为（LBT *）
+	LBT *q[MAX];  //定义一个循环队列，注意这是个指针数组，元素类型为（LBT *）
 
 	int head=0,tail=0;//队首、队尾序号 
 	if(bt)     
 	{
-		tail=(tail+1)%QUEUE_MAX;  //入队 
+		tail=(tail+1)%MAX;  //入队 
 		q[tail] = bt;
 	}
 	while(head!=tail)  //队列不为空，进行循环 
 	{
-		head=(head+1)%QUEUE_MAX;  //出队，head指向队首元素前一个，所以先+1
+		head=(head+1)%MAX;  //出队，head指向队首元素前一个，所以先+1
 		p=q[head];
 
 		oper(p);//处理队首元素 
 
 		if(p->left!=NULL) //左子节点先入队
 		{
-			tail=(tail+1)%QUEUE_MAX; 
+			tail=(tail+1)%MAX; 
 			q[tail]=p->left;
 		}
 
 		if(p->right!=NULL) //右子节点后入队 
 		{
-			tail=(tail+1)%QUEUE_MAX;//计算循环队列的队尾序号 
+			tail=(tail+1)%MAX;//计算循环队列的队尾序号 
 			q[tail]=p->right;//将右子树指针进队 
 		}
 	}
 	printf("\n");
 	return; 
 }
+
 
 //--------测试部分-------
 //  向二叉树指定值的节点添加子节点
@@ -290,14 +441,32 @@ int main()
 
 	printf("二叉树深度为：%d\n",depthOfLinkBinTree(bt));
 
-	printf("先序遍历：\n");
+	printf("先序遍历(递归)：\n");
 	DLRRecursion(bt,oper1);
 	printf("\n");
-	printf("中序遍历：\n");
+
+	printf("先序遍历(非递归)：\n");
+	DLRNoRecur(bt,oper1);
+	printf("\n");
+
+	printf("中序遍历(递归)：\n");
 	LDRRecursion(bt,oper1);
 	printf("\n");
-	printf("后序遍历：\n");
+
+	printf("中序遍历(非递归)：\n");
+	LDRNoRecur(bt,oper1);
+	printf("\n");	
+
+	printf("后序遍历(递归)：\n");
 	LRDRecursion(bt,oper1);
+	printf("\n");
+
+	printf("后序遍历1(非递归)：\n");
+	LRDNoRecur1(bt,oper1);
+	printf("\n");
+
+	printf("后序遍历2(非递归)：\n");
+	LRDNoRecur2(bt,oper1);
 	printf("\n");
 
 	printf("按层遍历：\n");
