@@ -1,3 +1,5 @@
+//顺序栈的基本操作和测试
+
 #include <stdio.h>
 #include <stdlib.h>
 
