@@ -5,14 +5,14 @@
 
 typedef struct LinkBinTree
 {
-	int data;
+	char data;
 	struct LinkBinTree *left;
 	struct LinkBinTree *right;
 }LBT;
 
 //--------基础函数--------
 
-//  1.初始化
+//  1.初始化根节点
 LBT *initLinkBinTree()
 {
 	printf("初始化：");
@@ -21,7 +21,8 @@ LBT *initLinkBinTree()
 	if(bt!=NULL)
 	{
 		printf("输入根节点数据：\n");
-		scanf("%d",&bt->data);
+		fflush(stdin);
+		scanf("%c",&bt->data);
 		bt->left=NULL;
 		bt->right=NULL;
 
@@ -35,10 +36,9 @@ LBT *initLinkBinTree()
 //  2.添加新节点,bt为父节点，node为子节点，n=l为添加左节点，r为右节点
 int addTreeNode(LBT *bt,LBT *node,char c) 
 {
-	printf("添加节点：");
 	if(bt==NULL)
 	{
-		printf("父节点不存在\n");	
+		printf("添加节点：父节点不存在\n");	
 		return -1;
 	}
 	switch(c)
@@ -47,7 +47,7 @@ int addTreeNode(LBT *bt,LBT *node,char c)
 		case 'L':
 		if(bt->left!=NULL)
 		{
-			printf("左子节点不为空\n");
+			printf("添加节点：左子节点不为空\n");
 			return -6;
 		}
 		else
@@ -58,13 +58,13 @@ int addTreeNode(LBT *bt,LBT *node,char c)
 		case 'R':
 		if(bt->right!=NULL) 
 		{
-			printf("右子结点不为空\n"); 
+			printf("添加节点：右子结点不为空\n"); 
 			return -9;
 		}else
 		bt->right=node;
 		break;
 		default:
-		printf("参数错误\n");
+		printf("添加节点：参数错误\n");
 		return -10;		
 	}
 	return 1;
@@ -115,7 +115,7 @@ int depthOfLinkBinTree(LBT *bt)
 } 
 
 //  7.在二叉树中查找值为data的结点,递归查找
-LBT *findNodeByValue(LBT *bt,int data)
+LBT *findNodeByValue(LBT *bt,char data)
 {
 	LBT *p;
 	if(bt==NULL)
@@ -342,7 +342,7 @@ void LRDNoRecur2(LBT *bt,void (*oper)(LBT *p))
 //  12.操作节点
 void oper(LBT *p) //操作二叉树结点数据 
 {
-	printf("%d  ",p->data); //输出数据
+	printf("%c  ",p->data); //输出数据
 	return;
 }
 
@@ -388,7 +388,7 @@ void levelOfLinkBinTree(LBT *bt,void (*oper)(LBT *p)) //按层遍历
 void addTreeNodeByParentValue(LBT *bt)
 {
 	LBT *node,*parent;
-	int data,parentData;
+	char data,parentData;
 	char select;
 
 	node=(LBT *)malloc(sizeof(LBT));
@@ -399,12 +399,12 @@ void addTreeNodeByParentValue(LBT *bt)
 	}
 
 	printf("输入父节点值，插入值，左/右：\n");
-	fflush(stdin);
-	scanf("%d,%d,%c",&parentData,&data,&select);
+	//fflush(stdin);
+	scanf("\n%c,%c,%c",&parentData,&data,&select);
 
 	if(select!='l'&&select!='r'&&select!='L'&&select!='R')
 	{
-		printf("添加节点：左/右参数无效\n");
+		printf("添加节点：左/右参数无效(%c)\n",select);
 		free(node);
 		return;
 	}
@@ -412,7 +412,7 @@ void addTreeNodeByParentValue(LBT *bt)
 	parent=findNodeByValue(bt,parentData);
 	if(parent==NULL)
 	{
-		printf("添加节点：父节点无效\n");
+		printf("添加节点：父节点无效(%c)\n",parentData);
 		free(node);
 		return;
 	}
@@ -420,24 +420,63 @@ void addTreeNodeByParentValue(LBT *bt)
 	node->data=data;
 	node->left=NULL;
 	node->right=NULL;
-	data=addTreeNode(parent,node,select);
-	if(data==1)
+	int t=addTreeNode(parent,node,select);
+	if(t==1)
 		printf("添加节点：成功\n");
 	else
-		printf("添加节点：失败(%d)\n",data);
+		printf("添加节点：失败(%d)\n",t);
 
+}
+
+//  先序建立二叉树，以#结束，递归
+//注意，如果传参数用LBT *p，则函数内形参p为一指针，先指向待操作的树bt，在函数中改变p指向的内容（比如指向malloc()或者NULL），并不会改变bt指向的内容，也就是说此时并没有创建树
+//而如果把树bt声明为全局变量，在函数内递归调用的时候，要先把全局树指向其左右子节点，再调用函数本身，此时返回发生了困难，在第一次返回递归的时候就产生了segment fault 11错误，原因未知
+//故采用引用的方法，即参数是待操作树的引用或别名，对引用的操作就是对原变量的操作，由于要新建存储空间和保存指针，所以传入引用的指针，即 *&bt
+void createTreeByPreOrder(LBT *&bt)
+{
+	char ch;
+	scanf("%c",&ch);
+
+	if(ch!='#')
+	{
+		if(ch=='.')
+		{
+			//printf("return %c\n",ch);
+			bt=NULL;
+		}
+		else
+		{
+			bt=(LBT *)malloc(sizeof(LBT));
+			bt->data=ch;
+			//printf("go %c\n",ch);
+
+			//printf("l  ");
+			createTreeByPreOrder(bt->left);
+			//printf("inserted left of %c\n",bt->data);
+			//printf("r  ");
+			createTreeByPreOrder(bt->right);
+			//printf("inserted right of %c\n",bt->data);
+		}
+	}
 }
 
 //主函数，测试功能
 int main()
 {
 	LBT *bt=NULL;
-	void (*oper1)();   //指向函数的指针
+	void (*oper1)(LBT *);   //指向函数的指针
 	oper1=oper;
 
-	bt=initLinkBinTree();
-	for(int i=0;i<10;i++)
-		addTreeNodeByParentValue(bt);
+	//初始化根节点
+	//bt=initLinkBinTree();
+
+	//按父节点值添加节点
+	//for(int i=0;i<10;i++)
+	//	addTreeNodeByParentValue(bt);
+
+	//先序建立二叉树
+	createTreeByPreOrder(bt);
+	if(bt==NULL) printf("111\n");
 
 	printf("二叉树深度为：%d\n",depthOfLinkBinTree(bt));
 
