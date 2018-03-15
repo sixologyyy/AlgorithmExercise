@@ -1,4 +1,5 @@
-//×°ÏäÎÊÌâ£¬ÓĞ±àºÅ0~n-1µÄn¸öÎïÆ·£¬Ìå»ı·Ö±ğÎªV0,V1...Vn-1£¬×°ÈëÌå»ıÎªV(V>Vi)µÄÏä×Ó£¬Çó×îÉÙµÄÏä×ÓÊı
+//è£…ç®±é—®é¢˜ï¼Œæœ‰ç¼–å·0~n-1çš„nä¸ªç‰©å“ï¼Œä½“ç§¯åˆ†åˆ«ä¸ºV0,V1...Vn-1ï¼Œè£…å…¥ä½“ç§¯ä¸ºV(V>Vi)çš„ç®±å­ï¼Œæ±‚æœ€å°‘çš„ç®±å­æ•°
+//ç”¨é“¾è¡¨èŠ‚ç‚¹ä»£è¡¨ç®±å­ï¼Œå­˜å‚¨ç‰©å“ä½“ç§¯
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +13,7 @@ typedef struct box
 	struct box* next;
 }BOX;
 
-void initList(BOX** H)            //HÊÇÁ´±íÍ·£¬Ã¿¸ö½áµãµÄ no ÊÇÏä×ÓµÄĞòºÅ£¬ size ÊÇÀïÃæÎïÆ·µÄ×ÜÌå»ı
+void initList(BOX** H)            //Hæ˜¯é“¾è¡¨å¤´ï¼Œæ¯ä¸ªç»“ç‚¹çš„ no æ˜¯ç®±å­çš„åºå·ï¼Œ size æ˜¯é‡Œé¢ç‰©å“çš„æ€»ä½“ç§¯
 {
 	*H = (BOX*)malloc(sizeof(BOX));
 	(*H)->no = 0;
@@ -20,7 +21,7 @@ void initList(BOX** H)            //HÊÇÁ´±íÍ·£¬Ã¿¸ö½áµãµÄ no ÊÇÏä×ÓµÄĞòºÅ£¬ size
 	(*H)->next = NULL;
 }
 
-BOX* findNode(BOX* H, int volume, int v)       //Ñ°ÕÒÄÜ·Å½øÈ¥µÄÎïÆ·£¬volumeÊÇµ±Ç°ÒÑ¾­×°µÄÌå»ı£¬vÊÇÏä×ÓµÄÈİ»ı
+BOX* findNode(BOX* H, int volume, int v)       //å¯»æ‰¾èƒ½æ”¾è¿›å»çš„ç‰©å“ï¼Œvolumeæ˜¯å½“å‰å·²ç»è£…çš„ä½“ç§¯ï¼Œvæ˜¯ç®±å­çš„å®¹ç§¯
 {
 	BOX *p = H->next;
 	while (p != NULL)
@@ -32,7 +33,7 @@ BOX* findNode(BOX* H, int volume, int v)       //Ñ°ÕÒÄÜ·Å½øÈ¥µÄÎïÆ·£¬volumeÊÇµ±Ç
 	return p;
 }
 
-void addListTail(BOX *H, BOX *p)         //Î²²¿Ìí¼Ó½Úµã
+void addListTail(BOX *H, BOX *p)         //å°¾éƒ¨æ·»åŠ èŠ‚ç‚¹
 {
 	BOX* tmp = H->next;
 	BOX* q = H;
@@ -55,7 +56,7 @@ void printList(BOX *H)
 	}
 }
 
-int putInBox(int volume[], int num, int v)            //×°Ïä
+int putInBox(int volume[], int num, int v)            //è£…ç®±
 {
 	int count = 0;
 	int i;
@@ -90,15 +91,15 @@ int main(void)
 	int n, i;
 	int volume[100];
 
-	printf("ÊäÈëÎïÆ·¸öÊı£º");
+	printf("è¾“å…¥ç‰©å“ä¸ªæ•°ï¼š");
 	scanf("%d", &n);
-	printf("\nÒÀ´ÎÊäÈëÃ¿¸öÎïÆ·µÄÌå»ı£º");
+	printf("\nä¾æ¬¡è¾“å…¥æ¯ä¸ªç‰©å“çš„ä½“ç§¯ï¼š");
 	for (i = 0; i < n; i++)
 		scanf("%d", volume + i);
 
 	printf("\n");
 	count = putInBox(volume, n, V);
-	printf("\n×Ü¹² %d ¸öÏä×Ó\n\n", count);
+	printf("\næ€»å…± %d ä¸ªç®±å­\n\n", count);
 
 	return 1;
 }
