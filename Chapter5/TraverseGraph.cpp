@@ -1,3 +1,5 @@
+//图的深度优先遍历（递归和非递归），广度优先遍历（非递归）
+
 #include "MatrixGraph.cpp"
 
 #define QUEUE_MAX 40   //图的最大顶点数   
@@ -18,12 +20,12 @@ typedef struct
 //栈操作函数
 void StackInit(Stack *S);
 int StackIsEmpty(Stack *S);
-int StackPush(Stack *S);
-int StackPop(Stack *S);
+int StackPush(Stack *S,int x);
+int StackPop(Stack *S,int *x);
 
 //队列操作函数
 void QueueInit(CycQueue *Q);
-int QueueIsEmpty(CycQueue *Q);
+int QueueIsEmpty(CycQueue Q);
 int QueueIn(CycQueue *Q,int x);
 int QueueOut(CycQueue *Q,int *x);
 
@@ -32,7 +34,7 @@ void DFSRecur(MatrixGraph *G);
 void DFSSub(MatrixGraph *G,int i);
 void DFSNoRecurr(MatrixGraph *G);
 void BFS(MatrixGraph *G);
-void BFSsub(MatrixGraph *G,int i);
+void BFSSub(MatrixGraph *G,int v);
 
 //--------栈--------
 void StackInit(Stack *S)
@@ -43,15 +45,24 @@ void StackInit(Stack *S)
 int StackPush(Stack *S,int x)
 {
 	if(S->top==QUEUE_MAX-1)
+	{
+		printf("stackoverflow\n");
 		return 0;
-	S->data[S->++top]=x;
+	}
+	S->top++;
+	S->data[S->top]=x;
+	return 1;
 }
 
 int StackPop(Stack *S,int *x)
 {
 	if(S->top==-1)
+	{
+		printf("stackisempty\n");
 		return 0;
+	}
 	*x=S->data[S->top];
+	S->top--;
 	return 1;
 }
 
@@ -86,7 +97,7 @@ int QueueOut(CycQueue *Q,int *x)
 }
 
 //--------图遍历---------
-//深度优先遍历
+//  1.深度优先遍历
 void DFSRecur(MatrixGraph *G)
 {
 	int v;
@@ -99,7 +110,8 @@ void DFSRecur(MatrixGraph *G)
 	printf("\n");
 }
 
-//子函数，递归深度优先遍历
+//  1.5子函数，递归深度优先遍历
+//寻找v的第一个未访问的邻接节点，递归调用
 void DFSSub(MatrixGraph *G,int v)
 {
 	int j;
@@ -111,45 +123,86 @@ void DFSSub(MatrixGraph *G,int v)
 			DFSSub(G,j);
 }
 
-//非递归深度优先遍历
+//  2.非递归深度优先遍历（思路类似非递归先序遍历二叉树）
+/*  构造一个栈，起始点v先入栈，当栈不为空时进行如下循环
+     (1)获取栈顶元素v，不出栈
+     (2)寻找v的第一个未访问的邻接节点，访问并入栈
+     (3)若v没有未访问节点，说明已到最深处，出栈进行回溯
+*/
 void DFSNoRecurr(MatrixGraph *G)
 {
 	Stack S;
 	StackInit(&S);
 	
 	int v=0;
-	int near=0;   //邻接点的序号
+	int j=0;   //邻接点的序号
 
 	for(v=0;v<G->VertexNum;v++)
 		G->isTrav[v]=0;
 	printf("非递归深度优先遍历：\n");
 
 	//第一个节点入栈
-	StackPush(&S,G->Vertex[0]);
+	StackPush(&S,v);
 	while(S.top!=-1)   //栈不为空时循环处理
 	{
 		//取栈顶元素，不出栈
 		v=S.data[S.top];
-		//如果节点未访问，则访问
-		if(G->isTrav[i]!=0)
-		{
-			G->isTrav[i]=1;
-			printf("->%c",G->Vertex[i]);			
-		}
-		//寻找第一个邻接节点
-		for(near=0;near<G->VertexNum;near++)
-			if(G->Edges[i][near]!=MAXVALUE)
+		for(j=0;j<G->VertexNum;j++)   //遍历节点，寻找v的第一个未访问的邻接点，访问该节点，记录访问标志，入栈
+			if(G->isTrav[j]!=1&&G->Edges[v][j]!=MAXVALUE)   
+			{
+				printf("->%c",G->Vertex[j]);
+				G->isTrav[j]=1;
+				StackPush(&S,j);
 				break;
-		i=G->Verted[near];
-		while(i!=VertexNum)
-		{
-			if(isTrav[i]!=0)
-				StackPush(&S,&G->Verted[i]);
-			i=Nextadj
-		}
+			}
+		if(j==G->VertexNum)    //当前节点没有未访问的邻接点，说明已经到最深处，出栈进行回溯
+			StackPop(&S,&j);
 
 	}
 	printf("\n");
+}
+
+//  2.广度优先遍历（递归法要在队列基础上改造，不够简洁，故舍弃）
+void BFS(MatrixGraph *G)
+{
+	int v;
+	for(v=0;v<G->VertexNum;v++)
+		G->isTrav[v]=0;
+	printf("广度优先遍历：\n");
+	for(v=0;v<G->VertexNum;v++)
+		if(G->isTrav[v]==0)
+			BFSSub(G,v);
+	printf("\n");
+}
+
+//  2.5子函数，队列实现广度优先遍历
+/*
+	第一个节点入队，当队列不为空时循环进行如下操作：
+	（1）队首节点v出队
+	（2）访问i的所有未访问的邻接节点，依次入队
+*/
+void BFSSub(MatrixGraph *G,int v)
+{
+	int i,j;
+	CycQueue Q;
+	QueueInit(&Q);
+
+	G->isTrav[v]=1;
+	printf("->%c",G->Vertex[v]);
+
+	//第一个节点入队
+	QueueIn(&Q,v);
+	while(QueueIsEmpty(Q)==0)
+	{
+		QueueOut(&Q,&i);
+		for(j=0;j<G->VertexNum;j++)
+			if(G->isTrav[j]==0&&G->Edges[i][j]!=MAXVALUE)
+			{
+				QueueIn(&Q,j);
+				printf("->%c",G->Vertex[j]);
+				G->isTrav[j]=1;
+			}
+	}
 }
 
 //--------测试部分--------
@@ -169,5 +222,7 @@ int main()
     PrintMGraph(&G);
 
     DFSRecur(&G);
+    DFSNoRecurr(&G);
+    BFS(&G);
     return 0;
 }
