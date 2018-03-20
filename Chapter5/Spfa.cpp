@@ -58,6 +58,7 @@ void Spfa(MatrixGraph G,int s,int *dis,int *path)
             printf("%c < ",G.Vertex[t]);
             t=path[t];
         }
+        printf("\n");
     }
 }
 
