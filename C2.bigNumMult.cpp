@@ -1,32 +1,32 @@
-//Ä£ÄâÊÖËã´óÊı³Ë·¨
+//æ¨¡æ‹Ÿæ‰‹ç®—å¤§æ•°ä¹˜æ³•
 /*
         123 * 456
-		´ÓµÍÎ»±éÀú456£¬¼ÆËã123*6 , 123*5 , 123*4
-		µÃµ½µÄ½á¹û·Ö±ğÒÆÎ»0,1,2Ïà¼Ó£¬¼ÆËã½øÎ»
-		result´æ·ÅÀÛ¼Ó½á¹û£¬temp´æ·Å¸öÎ»ÊıÓë±»³ËÊıµÄ»ı
+		ä»ä½ä½éå†456ï¼Œè®¡ç®—123*6 , 123*5 , 123*4
+		å¾—åˆ°çš„ç»“æœåˆ†åˆ«ç§»ä½0,1,2ç›¸åŠ ï¼Œè®¡ç®—è¿›ä½
+		resultå­˜æ”¾ç´¯åŠ ç»“æœï¼Œtempå­˜æ”¾ä¸ªä½æ•°ä¸è¢«ä¹˜æ•°çš„ç§¯
 
-		ÓÉÓÚ´ÓµÍÎ»Íù¸ßÎ»Ëã£¬ÔÚÔ¤ÏÈÈ·¶¨½á¹û×ÜÎ»ÊıÊ±³öÏÖÀ§ÄÑ£¬ÒòÎª×î¸ßÎ»µÄ½øÎ»ÓĞ¿ÉÄÜÊÇ´ÓºÜµÍµÄÎ»ÖÃ´«µİÉÏÀ´
-		½â¾ö°ì·¨£º¿ª±Ù×ã¹»µÄ¿Õ¼ä£¬È«²¿ÖÃ'0'£¬Ê×µØÖ·Îª resultStart
-		                Êä³öÊ±¼ÆËã×î¸ßÎ»µÄ½øÎ»Êı£¬tempCarryÎªa*b[i]µÄ½á¹û¸ßÎ»ÊÇ·ñ½øÎ»£¬resultCarryÎªÀÛ¼Ó×î¸ßÎ»ÊÇ·ñ½øÎ»
-						ifCarry = tempCarry + resultCarry  (²»¿ÉÄÜÍ¬Ê±Îª1)£¬Êä³ö resultStart+£¨1-ifCarry£© ´¦µÄ×Ö·û´®£¬ÎŞÊÓÔÙÇ°ÃæµÄ×Ö·û
-					    Èç    11                  99 
+		ç”±äºä»ä½ä½å¾€é«˜ä½ç®—ï¼Œåœ¨é¢„å…ˆç¡®å®šç»“æœæ€»ä½æ•°æ—¶å‡ºç°å›°éš¾ï¼Œå› ä¸ºæœ€é«˜ä½çš„è¿›ä½æœ‰å¯èƒ½æ˜¯ä»å¾ˆä½çš„ä½ç½®ä¼ é€’ä¸Šæ¥
+		è§£å†³åŠæ³•ï¼šå¼€è¾Ÿè¶³å¤Ÿçš„ç©ºé—´ï¼Œå…¨éƒ¨ç½®'0'ï¼Œé¦–åœ°å€ä¸º resultStart
+		                è¾“å‡ºæ—¶è®¡ç®—æœ€é«˜ä½çš„è¿›ä½æ•°ï¼ŒtempCarryä¸ºa*b[i]çš„ç»“æœé«˜ä½æ˜¯å¦è¿›ä½ï¼ŒresultCarryä¸ºç´¯åŠ æœ€é«˜ä½æ˜¯å¦è¿›ä½
+						ifCarry = tempCarry + resultCarry  (ä¸å¯èƒ½åŒæ—¶ä¸º1)ï¼Œè¾“å‡º resultStart+ï¼ˆ1-ifCarryï¼‰ å¤„çš„å­—ç¬¦ä¸²ï¼Œæ— è§†å†å‰é¢çš„å­—ç¬¦
+					    å¦‚    11                  99 
 						      *99                  99
 						--------------------------------------
 							   99                 891
 							 99                 891
 						--------------------------------------
 					       1089               9801
-						tempÎŞ½øÎ»       tempÓĞ
-						resultÓĞ½øÎ»       resultÎŞ
-						resultºÍtemp²»¿ÉÄÜÍ¬Ê±½øÎ»£¬ÒòÎªtemp×î¸ßÎ»Èç¹û²úÉú½øÎ»£¬×î´óÎª99...*9=899...£¬µÚ¶ş¸ßÎ»×î¶àÒ²ÊÇ899...
-						                                             ÔÚresultÖĞÀÛ¼Ó£¬¼´Îª899...+089...£¬×î¶à99...£¬¼´ÀÛ¼ÓÔÚresultÖĞ×î¸ßÎ»²»½øÎ»
+						tempæ— è¿›ä½       tempæœ‰
+						resultæœ‰è¿›ä½       resultæ— 
+						resultå’Œtempä¸å¯èƒ½åŒæ—¶è¿›ä½ï¼Œå› ä¸ºtempæœ€é«˜ä½å¦‚æœäº§ç”Ÿè¿›ä½ï¼Œæœ€å¤§ä¸º99...*9=899...ï¼Œç¬¬äºŒé«˜ä½æœ€å¤šä¹Ÿæ˜¯899...
+						                                             åœ¨resultä¸­ç´¯åŠ ï¼Œå³ä¸º899...+089...ï¼Œæœ€å¤š99...ï¼Œå³ç´¯åŠ åœ¨resultä¸­æœ€é«˜ä½ä¸è¿›ä½
 
 
-					    ¶ÔÃ¿¸ötempµÄ´¦ÀíÍ¬ÉÏ£¬ ifCarry = tempCarry£¬ÔÚÔ­Ê¼µÄtempStartÖĞÌîÍê¼ÆËã½á¹ûºó£¬tempStart+£¨1-ifCarry £©ÎªÕæÊµµÄtempÊ×Î»
+					    å¯¹æ¯ä¸ªtempçš„å¤„ç†åŒä¸Šï¼Œ ifCarry = tempCarryï¼Œåœ¨åŸå§‹çš„tempStartä¸­å¡«å®Œè®¡ç®—ç»“æœåï¼ŒtempStart+ï¼ˆ1-ifCarry ï¼‰ä¸ºçœŸå®çš„tempé¦–ä½
 
-		½â¾ö°ì·¨2£º¿ª±Ù×ã¹»µÄ¿Õ¼ä£¬ÓÉÓÚÌáÇ°ÖÃÁË'0'£¬ËùÒÔ±éÀúÕÒµ½µÚÒ»¸ö²»ÊÇ'0'µÄ¼´¿É        - -
+		è§£å†³åŠæ³•2ï¼šå¼€è¾Ÿè¶³å¤Ÿçš„ç©ºé—´ï¼Œç”±äºæå‰ç½®äº†'0'ï¼Œæ‰€ä»¥éå†æ‰¾åˆ°ç¬¬ä¸€ä¸ªä¸æ˜¯'0'çš„å³å¯        - -
 
-		¾É°æ±¾ÖĞ£¬¼ÆËãtempÊ±·µ²»·µ»ØifCarry£¬·µ»ØÕæÊµµÄtempµÄµØÖ·£¬Ğ§¹ûÊÇÒ»ÑùµÄ£¬µ«Òª¼ÆËã×¼È·Ê×µØÖ·
+		æ—§ç‰ˆæœ¬ä¸­ï¼Œè®¡ç®—tempæ—¶è¿”ä¸è¿”å›ifCarryï¼Œè¿”å›çœŸå®çš„tempçš„åœ°å€ï¼Œæ•ˆæœæ˜¯ä¸€æ ·çš„ï¼Œä½†è¦è®¡ç®—å‡†ç¡®é¦–åœ°å€
 */
 #include <stdio.h>
 #include <string.h>
@@ -34,14 +34,16 @@
 
 #define length 1001
 
-int howLong(char *a, char *b);        //ÒÑ±»ÆúÓÃ£¬ÒòÎªÎŞ·¨ÊÂÏÈ×¼È·Ëã³öÊÇ·ñ½øÎ»£¬¹ÊÎŞ·¨Ëã×ÜÎ»Êı
 
-int multOneDigit(char *dst, char *src, char ch);         //¶àÎ»Êısrc * Ò»Î»Êıch  µÄ½á¹û£¬´æÔÚdstÖĞ£¬·µ»Ø×î¸ßÎ»½øÎ»½á¹û
-int addResult(char *dst, char *src, int offset);    //½«temp·ÅÔÚresultÖĞ£¬´ÓµÍÎ»¿ªÊ¼£¬³õÊ¼Æ«ÒÆoffsetÎ»
+
+int multOneDigit(char *dst, char *src, char ch);         //å¤šä½æ•°src * ä¸€ä½æ•°ch  çš„ç»“æœï¼Œå­˜åœ¨dstä¸­ï¼Œè¿”å›æœ€é«˜ä½è¿›ä½ç»“æœ
+int addResult(char *dst, char *src, int offset);    //å°†tempæ”¾åœ¨resultä¸­ï¼Œä»ä½ä½å¼€å§‹ï¼Œåˆå§‹åç§»offsetä½
+
+int howLong(char *a, char *b);        //å·²è¢«å¼ƒç”¨ï¼Œå› ä¸ºæ— æ³•äº‹å…ˆå‡†ç¡®ç®—å‡ºæ˜¯å¦è¿›ä½ï¼Œæ•…æ— æ³•ç®—æ€»ä½æ•°
 
 int main(void)
 {	
-	//³õÊ¼»¯Êı×é
+	//åˆå§‹åŒ–æ•°ç»„
 	char *a = NULL;
 	char *b = NULL;
 	char *tempStart = NULL;
@@ -51,22 +53,22 @@ int main(void)
 	a = (char*)malloc(length * sizeof(char));
 	b = (char*)malloc(length * sizeof(char));
 
-	//ÊäÈë
-	printf("ÊäÈëÕûÊıa,b£º\n");
+	//è¾“å…¥
+	printf("è¾“å…¥æ•´æ•°a,bï¼š\n");
 	gets_s(a, length);
 	gets_s(b, length);
 
-	//±äÁ¿ÉùÃ÷
+	//å˜é‡å£°æ˜
 	int i, j;
-	int ifTempCarry = 0, ifResultCarry = 0;      //×î¸ßÎ»½øÎ»
+	int ifTempCarry = 0, ifResultCarry = 0;      //æœ€é«˜ä½è¿›ä½
 	int lenA = strlen(a);
-	int signA = a[0] == '-' ? 1 : 0;     //ÓĞ¸ººÅÊ±sign=1£¬·ñÔò0
+	int signA = a[0] == '-' ? 1 : 0;     //æœ‰è´Ÿå·æ—¶sign=1ï¼Œå¦åˆ™0
 	int lenB = strlen(b);
 	int signB = b[0] == '-' ? 1 : 0;
-	int lenResult = lenA + lenB;      //¿ÉÄÜµÄ×î³¤µÄ³¤¶È£¬°üÀ¨¸ººÅºÍ½øÎ»£¬²»°üÀ¨'\0'
+	int lenResult = lenA + lenB;      //å¯èƒ½çš„æœ€é•¿çš„é•¿åº¦ï¼ŒåŒ…æ‹¬è´Ÿå·å’Œè¿›ä½ï¼Œä¸åŒ…æ‹¬'\0'
 	
-	//³õÊ¼»¯tempºÍresult£¬×¢Òâ²»ÒªÓÃmemset£¬Ò²²»ÒªÖÃÊı×Ö0·ñÔò³¤¶È¼ÆËã´íÎó
-	tempStart = (char*)malloc((lenA + 2) * sizeof(char));        //¿ª±Ù¿Õ¼äµÄ³¤¶ÈÒª°üÀ¨ ½øÎ»ºÍ'\0'
+	//åˆå§‹åŒ–tempå’Œresultï¼Œæ³¨æ„ä¸è¦ç”¨memsetï¼Œä¹Ÿä¸è¦ç½®æ•°å­—0å¦åˆ™é•¿åº¦è®¡ç®—é”™è¯¯
+	tempStart = (char*)malloc((lenA + 2) * sizeof(char));        //å¼€è¾Ÿç©ºé—´çš„é•¿åº¦è¦åŒ…æ‹¬ è¿›ä½å’Œ'\0'
 	tempStart[lenA+1] = '\0';
 	temp = tempStart;
 
@@ -76,22 +78,22 @@ int main(void)
 	resultStart[lenResult] = '\0';
 	result = resultStart;
 
-	//Ä£Äâ³Ë·¨
-	for (i = lenB - 1; i >= 0 + signB; i--)                      //´ÓµÍÎ»±éÀúb£¬ÅÅ³ıbµÚ1Î»¿ÉÄÜ´æÔÚµÄ¸ººÅ
+	//æ¨¡æ‹Ÿä¹˜æ³•
+	for (i = lenB - 1; i >= 0 + signB; i--)                      //ä»ä½ä½éå†bï¼Œæ’é™¤bç¬¬1ä½å¯èƒ½å­˜åœ¨çš„è´Ÿå·
 	{
-		ifTempCarry = multOneDigit(tempStart, a + signA , b[i]);                 //   a*b[i]£¬Êä³öÈ«ÎªÕı£¬µØÖ·a+signAÅÅ³ıµÚÒ»Î»µÄ¸ººÅ
+		ifTempCarry = multOneDigit(tempStart, a + signA , b[i]);                 //   a*b[i]ï¼Œè¾“å‡ºå…¨ä¸ºæ­£ï¼Œåœ°å€a+signAæ’é™¤ç¬¬ä¸€ä½çš„è´Ÿå·
 		temp = tempStart + (1 - ifTempCarry) + signA;
-		ifResultCarry = addResult(resultStart, temp, lenB - 1 - i);                 //ÀÛ¼Ó½á¹û´æÈëÔ­Ê¼resultStartÏàÓ¦Î»ÖÃ
+		ifResultCarry = addResult(resultStart, temp, lenB - 1 - i);                 //ç´¯åŠ ç»“æœå­˜å…¥åŸå§‹resultStartç›¸åº”ä½ç½®
 	}
-	result = resultStart + (1 - (ifTempCarry + ifResultCarry));         //²»¿¼ÂÇ¸ººÅµÄÇé¿öÏÂ£¬¸ù¾İ½øÎ»È·¶¨Ê×Î»µÄµØÖ·
-	                                                                                              //ÈôÊÇÁ½¸öÕıÊı£¬²»±ä
+	result = resultStart + (1 - (ifTempCarry + ifResultCarry));         //ä¸è€ƒè™‘è´Ÿå·çš„æƒ…å†µä¸‹ï¼Œæ ¹æ®è¿›ä½ç¡®å®šé¦–ä½çš„åœ°å€
+	                                                                                              //è‹¥æ˜¯ä¸¤ä¸ªæ­£æ•°ï¼Œä¸å˜
 	if (signA&&signB)
-		result = result + 2;                                                             //Á½¸ö¸ºÊı£¬ÉÙÁ½Î»¸ººÅ
-	if ((signA + signB) % 2)                                                          //Ò»¸ö¸ºÊı£¬ÉÙÒ»Î»£¬µ«ÊÇ½á¹ûÖĞÒªÁôÒ»¸ö¸ººÅÎ»£¬ËùÒÔÎ»Êı²»±ä£¬°ÑµÚ0Î»¸Ä³É¸ººÅ
+		result = result + 2;                                                             //ä¸¤ä¸ªè´Ÿæ•°ï¼Œå°‘ä¸¤ä½è´Ÿå·
+	if ((signA + signB) % 2)                                                          //ä¸€ä¸ªè´Ÿæ•°ï¼Œå°‘ä¸€ä½ï¼Œä½†æ˜¯ç»“æœä¸­è¦ç•™ä¸€ä¸ªè´Ÿå·ä½ï¼Œæ‰€ä»¥ä½æ•°ä¸å˜ï¼ŒæŠŠç¬¬0ä½æ”¹æˆè´Ÿå·
 		result[0] = '-';
 		
 
-	puts("\n½á¹û£º");
+	puts("\nç»“æœï¼š");
 	puts(a);
 	puts("*");
 	puts(b);
@@ -106,35 +108,35 @@ int main(void)
 	return 1;
 }
 
-int howLong(char *a, char *b)     //×¢ÒâÖ»¼ÆËãÊı×Ö³¤¶È£¬²»Ëã'\0'ºÍ·ûºÅ
+int howLong(char *a, char *b)     //æ³¨æ„åªè®¡ç®—æ•°å­—é•¿åº¦ï¼Œä¸ç®—'\0'å’Œç¬¦å·
 {
 	int lena = strlen(a);
 	int lenb = strlen(b);
 	int lenResult;
 	if (a[0] == '-'&&b[0] == '-')
 	{
-		if ((a[1] - 48)*(b[1] - 48) < 10)      //¸º¸ºµÃÕı£¬²»½øÎ»£¬Êı×Ö¹²  lena-1(È¥¸ººÅ) + lenb-1(È¥¸ººÅ)  -1(²»½øÎ»)
+		if ((a[1] - 48)*(b[1] - 48) < 10)      //è´Ÿè´Ÿå¾—æ­£ï¼Œä¸è¿›ä½ï¼Œæ•°å­—å…±  lena-1(å»è´Ÿå·) + lenb-1(å»è´Ÿå·)  -1(ä¸è¿›ä½)
 			lenResult = lena + lenb - 3;
-		else                                            //½øÎ»
+		else                                            //è¿›ä½
 			lenResult = lena + lenb - 2;
 	}
 	else if (a[0] == '-')
 	{
-		if ((a[1] - 48)*(b[0] - 48) < 10)      //Õı¸ºµÃ¸º£¬²»½øÎ»£¬Êı×Ö¹²  lena-1(È¥¸ººÅ) + lenb  -1(²»½øÎ»)
+		if ((a[1] - 48)*(b[0] - 48) < 10)      //æ­£è´Ÿå¾—è´Ÿï¼Œä¸è¿›ä½ï¼Œæ•°å­—å…±  lena-1(å»è´Ÿå·) + lenb  -1(ä¸è¿›ä½)
 			lenResult = lena + lenb -2;
-		else                                           //½øÎ»
+		else                                           //è¿›ä½
 			lenResult = lena + lenb -1;
 	}
 	else if (b[0] == '-')
 	{
-		if ((a[0] - 48)*(b[1] - 48) < 10)      //Õı¸ºµÃ¸º£¬²»½øÎ»£¬Í¬ÉÏ
+		if ((a[0] - 48)*(b[1] - 48) < 10)      //æ­£è´Ÿå¾—è´Ÿï¼Œä¸è¿›ä½ï¼ŒåŒä¸Š
 			lenResult = lena + lenb - 2;
 		else
 			lenResult = lena + lenb - 1;
 	}
 	else
 	{
-		if ((a[0] - 48)*(b[0] - 48) < 10)      //ÕıÕıµÃÕı£¬²»½øÎ»£¬Êı×Ö¹²  lena + lenb  -1(²»½øÎ»)
+		if ((a[0] - 48)*(b[0] - 48) < 10)      //æ­£æ­£å¾—æ­£ï¼Œä¸è¿›ä½ï¼Œæ•°å­—å…±  lena + lenb  -1(ä¸è¿›ä½)
 			lenResult = lena + lenb - 1;
 		else
 			lenResult = lena + lenb;
@@ -142,37 +144,37 @@ int howLong(char *a, char *b)     //×¢ÒâÖ»¼ÆËãÊı×Ö³¤¶È£¬²»Ëã'\0'ºÍ·ûºÅ
 	return lenResult;
 }
 
-int multOneDigit(char *dst, char *src, char ch)              //¶àÎ»Êısrc * Ò»Î»Êıch  µÄ½á¹û£¬´æÔÚdstÖĞ£¬Êä³öÊ±+48
+int multOneDigit(char *dst, char *src, char ch)              //å¤šä½æ•°src * ä¸€ä½æ•°ch  çš„ç»“æœï¼Œå­˜åœ¨dstä¸­ï¼Œè¾“å‡ºæ—¶+48
 {
 	int i, j, ifCarry = 0;
 	int lenSrc = strlen(src);
 	int lenDst = strlen(dst);
 	char carry = 0;
 	
-	for (i = lenSrc - 1, j = lenDst - 1; i >= 0; i--, j--) //´ÓµÍÎ»±éÀú±»³ËÊısrc
+	for (i = lenSrc - 1, j = lenDst - 1; i >= 0; i--, j--) //ä»ä½ä½éå†è¢«ä¹˜æ•°src
 	{
-		char tempResult = carry + (ch - 48)*(src[i] - 48);    //³Ë»ıºÍ½øÎ»
-		dst[j] = tempResult % 10 + 48;                //´ÓµÍÎ»ÌîÈëdst£¬²¢+48
+		char tempResult = carry + (ch - 48)*(src[i] - 48);    //ä¹˜ç§¯å’Œè¿›ä½
+		dst[j] = tempResult % 10 + 48;                //ä»ä½ä½å¡«å…¥dstï¼Œå¹¶+48
 		carry = (char)tempResult / 10;
 	}
 	ifCarry = carry > 0 ? 1 : 0;
 	if (ifCarry)
 	{
-		dst[j] = carry + 48;         //Èô¹ûÓĞ½øÎ»£¬ÌîÉÏ×î¸ßÎ»
+		dst[j] = carry + 48;         //è‹¥æœæœ‰è¿›ä½ï¼Œå¡«ä¸Šæœ€é«˜ä½
 	}
 	return ifCarry;
 }
 
-int addResult(char *dst, char *src, int offset)          //°Ñsrc¼ÓÈëdstÖĞ£¬´ÓµÍÎ»ÆğÆ«ÒÆoffset¿ªÊ¼Ïà¼Ó
+int addResult(char *dst, char *src, int offset)          //æŠŠsrcåŠ å…¥dstä¸­ï¼Œä»ä½ä½èµ·åç§»offsetå¼€å§‹ç›¸åŠ 
 {
 	int i, j, ifCarry = 0;
 	char carry = 0;
 	int lenSrc = strlen(src);
 	int lenDst = strlen(dst);
 
-	for (i = lenSrc - 1, j = lenDst - 1; i >= 0; i--, j--)      //´ÓµÍÎ»±éÀúsrc
+	for (i = lenSrc - 1, j = lenDst - 1; i >= 0; i--, j--)      //ä»ä½ä½éå†src
 	{
-		//temp£¬result¶¼ÒÑ¾­¼ÓÁË48
+		//tempï¼Œresultéƒ½å·²ç»åŠ äº†48
 		char tempResult = carry + dst[j - offset] - 48 + src[i] - 48;
 		dst[j - offset] = tempResult % 10 + 48;
 		carry = (char)tempResult / 10;
@@ -180,7 +182,7 @@ int addResult(char *dst, char *src, int offset)          //°Ñsrc¼ÓÈëdstÖĞ£¬´ÓµÍÎ
 	ifCarry = carry > 0 ? 1 : 0;
 	if (ifCarry)
 	{
-		dst[j - offset] = carry + 48;         //Èô¹ûÓĞ½øÎ»£¬ÌîÉÏ×î¸ßÎ»
+		dst[j - offset] = carry + 48;         //è‹¥æœæœ‰è¿›ä½ï¼Œå¡«ä¸Šæœ€é«˜ä½
 	}
 	return ifCarry;	
 }
