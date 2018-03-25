@@ -79,6 +79,7 @@ BST *SearchBST(BST *t,int key)
 void CreateBST(BST *&t,int data[],int n)//n个数据在数组d中，tree为二叉排序树根
 {
 	int i;
+	t=(BST *)malloc(sizeof(BST));
 	t->data=data[0];
 	t->left=t->right=NULL;
 	for(i=1;i<n;i++)
@@ -115,6 +116,8 @@ void LDRTraverse(BST *&t)
 	   q->right = pre->left          p->data = s->data     free(pre)
 （4）根节点，类似前面分类讨论有没有左右子树的情况
 */
+//注意，free()必须和malloc()配套使用，如果节点不是malloc创建的（比如根节点在主函数中声明为BST node），则free该节点会失败。
+//另外，对于子函数func(BST *p)，在函数中free(p)后，虽然该地址的内容被释放了，但实参仍然指向该地址，如果要修改实参=NULL，要用引用
 void DeleteNodeOfBST(BST *&t,int key)
 {
 	BST *p=t;
@@ -133,7 +136,7 @@ void DeleteNodeOfBST(BST *&t,int key)
 			{
 				if(p==t) //被删除的是根结点 
 				{
-					//free(p);
+					free(p);
 					p=NULL;
 					t=NULL;
 					return;
@@ -159,7 +162,7 @@ void DeleteNodeOfBST(BST *&t,int key)
 				if(p==t)   //根节点
 				{
 					t=p->right;
-					//free(p);
+					free(p);
 					p=NULL;
 					return;
 				}
@@ -180,7 +183,7 @@ void DeleteNodeOfBST(BST *&t,int key)
 				if(p==t)   //根节点
 				{
 					t=p->left;
-					//free(p);
+					free(p);
 					p=NULL;
 					return;
 				}
@@ -268,32 +271,31 @@ void DeleteNodeOfBST(BST *&t,int key)
 int main()
 {
 	int i,key;
-	BST bst,*pos;
-	BST *pbst=&bst;
+	BST *bst,*pos;
 	printf("原数据:"); 
 	for(i=0;i<ARRAYLEN;i++)
 		printf("%d ",source[i]);
 	printf("\n");
 
-	CreateBST(pbst,source,ARRAYLEN);
+	CreateBST(bst,source,ARRAYLEN);
 
 	printf("遍历二叉排序树:"); 
-	LDRTraverse(pbst);
+	LDRTraverse(bst);
 
 	do
 	{
 		printf("\n输入待删除关键字：\n");
 		scanf("%d",&key);
-		DeleteNodeOfBST(pbst,key);
+		DeleteNodeOfBST(bst,key);
 		printf("删除结点值为%d后:",key); 
-		LDRTraverse(pbst);
+		LDRTraverse(bst);
 
 	}while(key!=-1);
 
 
 	printf("\n请输入查找关键字:");
 	scanf("%d",&key); 
-	pos=SearchBST(&bst,key);
+	pos=SearchBST(bst,key);
 	if(pos)
 		printf("查找成功，该结点的地址：%x\n",pos);
 	else
