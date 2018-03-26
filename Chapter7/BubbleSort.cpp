@@ -7,14 +7,14 @@
 void BubbleSort(int *a,int n)
 {
 	int i,j,t,change;
-	//比较n-1轮，每一轮两两冒泡，若该轮没有交换，则排序完成
+	//比较n-1轮，第i轮把第i小的冒泡到第i位，若该轮没有交换，则排序完成
 	for(i=0; change && i<n;i++)
 	{
 		change=0;
-		for(j=0;j<n-1;j++)
+		for(j=n-1;j>i;j--)
 		{
-			if(a[j]>a[j+1])
-				t=a[j],a[j]=a[j+1],a[j+1]=t,change=1;
+			if(a[j]<a[j-1])
+				t=a[j],a[j]=a[j-1],a[j-1]=t,change=1;
 		}
 
 	}
