@@ -1,3 +1,5 @@
+//堆排序，升序
+
 #include <stdio.h>
 
 #define MAX 10
