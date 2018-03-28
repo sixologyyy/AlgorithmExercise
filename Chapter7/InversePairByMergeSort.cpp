@@ -1,38 +1,47 @@
+//归并排序求逆序对
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #define MAX 32767
 
-int merge(int *array, int p,int q,int r) { 
-	//归并array[p...q] 与 array[q+1...r]
+int merge(int *array, int start,int mid,int end) { 
+	//归并array[start...mid] 与 array[mid+1...end]
 
 	int tempSum=0;
-	int n1 = q-p+1;
-	int n2 = r-q;
+	int n1 = mid-start+1;
+	int n2 = end-mid;
 	int* left = NULL;
 	int* right = NULL;
 	int i,j,k;
 
+	//最后多了个监视哨的位置
 	left = ( int *)malloc(sizeof(int) * (n1+1));
 	right = ( int *)malloc(sizeof(int) * (n2+1));
 	
 	for(i=0; i<n1; i++)
-		left[i] = array[p+i];
+		left[i] = array[start+i];
 
 	for(j=0; j<n2; j++)
-		right[j] = array[q+1+j];
+		right[j] = array[mid+1+j];
 
-	left[n1] = MAX; //避免检查每一部分是否为空
+	left[n1] = MAX; //监视哨，避免检查每一部分是否为空
 	right[n2] = MAX;
 
 	i=0;
 	j=0;
 
-	for(k=p; k<=r; k++) {
-		if( left[i] <= right[j]) {
+	for(k=start; k<=end; k++) 
+	{
+		if( left[i] <= right[j]) 
+		{
 			array[k] = left[i];
 			i++;
-		} else {
+		}
+		//每个左边小于右边，产生一个逆序对
+		//若left[i] > right[j]，则left[i...n1-1]这n1-i个数都大于right[j]，所以产生了n1-i个逆序对
+		else 
+		{
 			array[k] = right[j];
 			j++;
 			tempSum += n1 - i;
@@ -48,9 +57,11 @@ int merge(int *array, int p,int q,int r) {
 
 }
 
-int mergeSort(int *array, int start, int end ) {
+int mergeSort(int *array, int start, int end ) 
+{
 	int sum=0;
-	if(start < end) {
+	if(start < end) 
+	{
 		int mid = (start + end) /2;
 		sum += mergeSort(array, start, mid);
 		sum += mergeSort(array, mid+1, end);
@@ -59,7 +70,8 @@ int mergeSort(int *array, int start, int end ) {
 	return sum;
 }
 
-int main(int argc, char** argv) {
+int main(void)
+{
 	int array[5] = {9,1,0,5,4};
 	int inversePairNum;
 	int i;
@@ -67,7 +79,6 @@ int main(int argc, char** argv) {
 	inversePairNum = mergeSort(array,0,4);
 	for( i=0; i<5; i++)
 		printf("%d ", array[i]);
-	printf("\nInverse pair num = %d\n", inversePairNum);
-	getch();
+	printf("\n逆序对个数 = %d\n", inversePairNum);
     return 0;
 }
