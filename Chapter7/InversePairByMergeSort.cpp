@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #define MAX 32767
+#define LEN 6
 
 int merge(int *array, int start,int mid,int end) { 
 	//归并array[start...mid] 与 array[mid+1...end]
@@ -72,12 +73,12 @@ int mergeSort(int *array, int start, int end )
 
 int main(void)
 {
-	int array[5] = {9,1,0,5,4};
+	int array[LEN] = {9,1,0,5,4,3};
 	int inversePairNum;
 	int i;
 
-	inversePairNum = mergeSort(array,0,4);
-	for( i=0; i<5; i++)
+	inversePairNum = mergeSort(array,0,LEN-1);
+	for( i=0; i<LEN; i++)
 		printf("%d ", array[i]);
 	printf("\n逆序对个数 = %d\n", inversePairNum);
     return 0;
