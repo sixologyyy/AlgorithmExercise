@@ -47,4 +47,4 @@ Chapter 7 : sort algorithm
 8.solve inverse pair by merge sort
 9.radix sort
 
-Chapter 10 : some numeric problem
+Chapter 10 : some numeric problems
