@@ -1,22 +1,24 @@
+//å¤§æ•´æ•°è¿ç®—
+
 #include <stdio.h>
 #include <string.h>
 typedef struct bigint
 {
-   char *num;					//Ö¸Ïò³¤ÕûÊıÊı×é(ĞòºÅ0ÖĞ±£´æ×Å×îµÍÎ»)
-   char zhengfu;					//·ûºÅ(1±íÊ¾ÕıÊı,-1±íÊ¾¸ºÊı) 
-   int digit;					//±£´æ¸ÃÊıµÄÎ»Êı(Êµ¼ÊÎ»Êı) 
+   char *num;					//æŒ‡å‘é•¿æ•´æ•°æ•°ç»„(åºå·0ä¸­ä¿å­˜ç€æœ€ä½ä½)
+   char zhengfu;					//ç¬¦å·(1è¡¨ç¤ºæ­£æ•°,-1è¡¨ç¤ºè´Ÿæ•°) 
+   int digit;					//ä¿å­˜è¯¥æ•°çš„ä½æ•°(å®é™…ä½æ•°) 
 }BIGINT, *pBIGINT;
-void BigIntTrans(pBIGINT num);	//×Ö·û´®×ªÊı×Ö 
-void BigIntMul(pBIGINT num1, pBIGINT num2, pBIGINT result);	//³Ë·¨º¯Êı 
-void BigIntAdd1(pBIGINT num1, pBIGINT num2, pBIGINT result);	//Í¬ºÅÊıÏà¼Ó 
-void BigIntAdd(pBIGINT num1, pBIGINT num2, pBIGINT result);	//¼Ó·¨º¯Êı 
-void BigIntSub1(pBIGINT num1, pBIGINT num2, pBIGINT result);	//ÒìºÅÏà¼õº¯Êı
-void BigIntSub(pBIGINT num1, pBIGINT num2, pBIGINT result);	//¼õ·¨º¯Êı 
-void BigIntDiv(pBIGINT num1, pBIGINT num2, pBIGINT result, pBIGINT residue);	//³ı·¨º¯Êı 
-void BigIntPrint(pBIGINT result);	//Êä³ö´óÕûÊı
-int BigIntEqual(pBIGINT num1, pBIGINT num2);	//Á½Êı´óĞ¡±È½Ï
+void BigIntTrans(pBIGINT num);	//å­—ç¬¦ä¸²è½¬æ•°å­— 
+void BigIntMul(pBIGINT num1, pBIGINT num2, pBIGINT result);	//ä¹˜æ³•å‡½æ•° 
+void BigIntAdd1(pBIGINT num1, pBIGINT num2, pBIGINT result);	//åŒå·æ•°ç›¸åŠ  
+void BigIntAdd(pBIGINT num1, pBIGINT num2, pBIGINT result);	//åŠ æ³•å‡½æ•° 
+void BigIntSub1(pBIGINT num1, pBIGINT num2, pBIGINT result);	//å¼‚å·ç›¸å‡å‡½æ•°
+void BigIntSub(pBIGINT num1, pBIGINT num2, pBIGINT result);	//å‡æ³•å‡½æ•° 
+void BigIntDiv(pBIGINT num1, pBIGINT num2, pBIGINT result, pBIGINT residue);	//é™¤æ³•å‡½æ•° 
+void BigIntPrint(pBIGINT result);	//è¾“å‡ºå¤§æ•´æ•°
+int BigIntEqual(pBIGINT num1, pBIGINT num2);	//ä¸¤æ•°å¤§å°æ¯”è¾ƒ
 
-void BigIntTrim(pBIGINT num1) //ÕûÀí´óÕûÊı£¬È¥µôÇ°Ãæ¶àÓàµÄ0£¬²¢Ê¹µ÷ÕûÆäÎ»Êı
+void BigIntTrim(pBIGINT num1) //æ•´ç†å¤§æ•´æ•°ï¼Œå»æ‰å‰é¢å¤šä½™çš„0ï¼Œå¹¶ä½¿è°ƒæ•´å…¶ä½æ•°
 {
    int i;
    for (i = num1->digit - 1; i >= 0; i--)
@@ -24,138 +26,138 @@ void BigIntTrim(pBIGINT num1) //ÕûÀí´óÕûÊı£¬È¥µôÇ°Ãæ¶àÓàµÄ0£¬²¢Ê¹µ÷ÕûÆäÎ»Êı
 	  if (num1->num[i] != 0)
 		 break;
    }
-   if (i < 0)	//ÈôÓàÊıÈ«²¿Îª0
+   if (i < 0)	//è‹¥ä½™æ•°å…¨éƒ¨ä¸º0
    {
-	  num1->digit = 1;	//ÉèÖÃÓàÊıÎ»ÊıÎª1
+	  num1->digit = 1;	//è®¾ç½®ä½™æ•°ä½æ•°ä¸º1
 	  num1->num[0] = 0;
    } else
-	  num1->digit = i + 1;	//ÓàÊıÎ»Êı     
+	  num1->digit = i + 1;	//ä½™æ•°ä½æ•°     
 }
-void BigIntTrans(pBIGINT num1) //½«×Ö·û´®×ªÎªÊı×Ö±íÊ¾
+void BigIntTrans(pBIGINT num1) //å°†å­—ç¬¦ä¸²è½¬ä¸ºæ•°å­—è¡¨ç¤º
 {
-   char *temp;					//ÁÙÊ±Êı×é 
+   char *temp;					//ä¸´æ—¶æ•°ç»„ 
    int i, k, len;
-   len = strlen(num1->num);	//×Ö·û´®³¤¶È 
-   if (!(temp = (char *) malloc(sizeof(char) * len)))	//·ÖÅäÄÚ´æ 
+   len = strlen(num1->num);	//å­—ç¬¦ä¸²é•¿åº¦ 
+   if (!(temp = (char *) malloc(sizeof(char) * len)))	//åˆ†é…å†…å­˜ 
    {
-	  printf("ÄÚ´æ·ÖÅäÊ§°Ü!\n");
+	  printf("å†…å­˜åˆ†é…å¤±è´¥!\n");
 	  exit(0);
    }
    i = 0;
-   num1->zhengfu = 1;	//±£´æÎªÕıÊı 
-   if (num1->num[0] == '-')	//ÅĞ¶ÏÊÇ·ñÎª¸ºÊı 
+   num1->zhengfu = 1;	//ä¿å­˜ä¸ºæ­£æ•° 
+   if (num1->num[0] == '-')	//åˆ¤æ–­æ˜¯å¦ä¸ºè´Ÿæ•° 
    {
-	  num1->zhengfu = -1;	//±£´æÎª¸ºÊı 
+	  num1->zhengfu = -1;	//ä¿å­˜ä¸ºè´Ÿæ•° 
 	  i++;
    }
-   k = 0;	//Êı×ÖÎ»Êı¼ÆÊıÆ÷ 
-   while (num1->num[i] != '\0')	//×Ö·û´®Î´½áÊø 
+   k = 0;	//æ•°å­—ä½æ•°è®¡æ•°å™¨ 
+   while (num1->num[i] != '\0')	//å­—ç¬¦ä¸²æœªç»“æŸ 
    {
-	  if (num1->num[i] >= '0' && num1->num[i] <= '9')	//ÎªÊı×Ö0~9 
+	  if (num1->num[i] >= '0' && num1->num[i] <= '9')	//ä¸ºæ•°å­—0~9 
 	  {
-		 temp[k] = num1->num[i] - '0';	//½«ASCIIÂë×ª»»Îª¶ÔÓ¦Êı×Ö 
+		 temp[k] = num1->num[i] - '0';	//å°†ASCIIç è½¬æ¢ä¸ºå¯¹åº”æ•°å­— 
 		 k++;
 	  }
 	  i++;
    }
 
-   for (i = 0; i < num1->digit; i++)	//Çå¿ÕÊı×é¸÷ÔªËØ 
+   for (i = 0; i < num1->digit; i++)	//æ¸…ç©ºæ•°ç»„å„å…ƒç´  
 	  num1->num[i] = 0;
-   num1->digit = k;	//×ª»»ºóµÄÊı¾İÎ»Êı 
-   for (i = 0, k--; k >= 0; k--, i++)	//½«ÁÙÊ±Êı×é¸÷Î»·´ÖÃ±£´æµ½Êı×énumÖĞ 
+   num1->digit = k;	//è½¬æ¢åçš„æ•°æ®ä½æ•° 
+   for (i = 0, k--; k >= 0; k--, i++)	//å°†ä¸´æ—¶æ•°ç»„å„ä½åç½®ä¿å­˜åˆ°æ•°ç»„numä¸­ 
 	  num1->num[i] = temp[k];
-   BigIntTrim(num1); //ÕûÀíÊäÈëµÄ´óÕûÊı 
+   BigIntTrim(num1); //æ•´ç†è¾“å…¥çš„å¤§æ•´æ•° 
 }
-void BigIntPrint(pBIGINT result) //Êä³ö´óÕûÊı 
+void BigIntPrint(pBIGINT result) //è¾“å‡ºå¤§æ•´æ•° 
 {
    int j;
-   if (result->zhengfu == -1)	//ÊÇ¸ºÊı 
-	  printf("-");	//Êä³ö¸ºÊı 
-   if (result->digit == 1 && result->num[0] == 0)	//Èô´óÕûÊıÎª0
+   if (result->zhengfu == -1)	//æ˜¯è´Ÿæ•° 
+	  printf("-");	//è¾“å‡ºè´Ÿæ•° 
+   if (result->digit == 1 && result->num[0] == 0)	//è‹¥å¤§æ•´æ•°ä¸º0
 	  printf("0");
-   else //²»Îª0 
+   else //ä¸ä¸º0 
    {
-	  for (j = result->digit - 1; j >= 0; j--) //´Ó¸ßÎ»µ½µÍÎ»Êä³ö 
+	  for (j = result->digit - 1; j >= 0; j--) //ä»é«˜ä½åˆ°ä½ä½è¾“å‡º 
 		 printf("%d", result->num[j]);
    }
 }
-int BigIntEqual(pBIGINT num1, pBIGINT num2) //±È½Ï¾ø¶ÔÖµ´óĞ¡
+int BigIntEqual(pBIGINT num1, pBIGINT num2) //æ¯”è¾ƒç»å¯¹å€¼å¤§å°
 {
    int i;
-   if (num1->digit > num2->digit)	//num1µÄÎ»Êı´óÓÚnum2 
+   if (num1->digit > num2->digit)	//num1çš„ä½æ•°å¤§äºnum2 
 	  return 1;
-   else if (num1->digit < num2->digit)	//num1µÄÎ»ÊıĞ¡ÓÚnum2
+   else if (num1->digit < num2->digit)	//num1çš„ä½æ•°å°äºnum2
 	  return -1;
-   else	//Á½ÊıÎ»ÊıÏàµÈ 
+   else	//ä¸¤æ•°ä½æ•°ç›¸ç­‰ 
    {
-	  i = num1->digit - 1;	//num1µÄÊı¾İÎ»Êı 
-	  while (i >= 0)	//´Ó¸ßÎ»ÏòµÍÎ»±È
+	  i = num1->digit - 1;	//num1çš„æ•°æ®ä½æ•° 
+	  while (i >= 0)	//ä»é«˜ä½å‘ä½ä½æ¯”
 	  {
-		 if (num1->num[i] > num2->num[i])	//num1¶ÔÓ¦Î»´óÓÚnum2
+		 if (num1->num[i] > num2->num[i])	//num1å¯¹åº”ä½å¤§äºnum2
 			return 1;
-		 else if (num1->num[i] < num2->num[i])	//num1¶ÔÓ¦Î»Ğ¡ÓÚnum2
+		 else if (num1->num[i] < num2->num[i])	//num1å¯¹åº”ä½å°äºnum2
 			return -1;
 		 else
-			i--; //±È½ÏÏÂÒ»Î» 
+			i--; //æ¯”è¾ƒä¸‹ä¸€ä½ 
 	  }
    }
-   return 0;	//ÏàµÈ 
+   return 0;	//ç›¸ç­‰ 
 }
 void BigIntAdd(pBIGINT num1, pBIGINT num2, pBIGINT result)
 {
    int i;
-   i = BigIntEqual(num1, num2);	//±È½ÏÁ½Êı¾ø¶ÔÖµ´óĞ¡
-   if (i < 0)	//num1¾ø¶ÔÖµĞ¡ÓÚnum2 
+   i = BigIntEqual(num1, num2);	//æ¯”è¾ƒä¸¤æ•°ç»å¯¹å€¼å¤§å°
+   if (i < 0)	//num1ç»å¯¹å€¼å°äºnum2 
    {
      pBIGINT temp;
-     temp = num1;	//½»»»Á½Êı 
+     temp = num1;	//äº¤æ¢ä¸¤æ•° 
      num1 = num2;
      num2 = temp;
    }
-   if (num1->zhengfu * num2->zhengfu < 0)	//·ûºÅ²»Í¬£¬ÔòÖ´¼õ·¨ 
+   if (num1->zhengfu * num2->zhengfu < 0)	//ç¬¦å·ä¸åŒï¼Œåˆ™æ‰§å‡æ³• 
    {	  
-	  if (i == 0)	//Á½ÊıÏàµÈ
+	  if (i == 0)	//ä¸¤æ•°ç›¸ç­‰
 	  {
-		 result->digit = 1;	//½á¹û³¤¶ÈÎªÒ»Î»Êı£¬¾ÍÊÇÊıÖµ0
-		 result->num[0] = 0;	//½á¹ûÖµÎª0
-		 result->zhengfu = 1;	//½á¹ûÉèÎªÕıºÅ 
-		 return;	//·µ»Ø 
+		 result->digit = 1;	//ç»“æœé•¿åº¦ä¸ºä¸€ä½æ•°ï¼Œå°±æ˜¯æ•°å€¼0
+		 result->num[0] = 0;	//ç»“æœå€¼ä¸º0
+		 result->zhengfu = 1;	//ç»“æœè®¾ä¸ºæ­£å· 
+		 return;	//è¿”å› 
 	  } 
-	  BigIntSub1(num1, num2, result);	//µ÷ÓÃÏà¼õº¯ÊıÍê³ÉÒìºÅÏà¼ÓµÄÇé¿ö
+	  BigIntSub1(num1, num2, result);	//è°ƒç”¨ç›¸å‡å‡½æ•°å®Œæˆå¼‚å·ç›¸åŠ çš„æƒ…å†µ
    } else
-	  BigIntAdd1(num1, num2, result);	//µ÷ÓÃÏà¼Óº¯ÊıÍê³ÉÍ¬ºÅÏà¼Ó
+	  BigIntAdd1(num1, num2, result);	//è°ƒç”¨ç›¸åŠ å‡½æ•°å®ŒæˆåŒå·ç›¸åŠ 
 }
 void BigIntAdd1(pBIGINT num1, pBIGINT num2, pBIGINT result)
 {
    int i, carry;
    carry = 0;
-   result->zhengfu = num1->zhengfu;	//±£´æ·ûºÅ 
-   for (i = 0; i < num1->digit; i++)	//½«±»¼ÓÊı¸´ÖÆµ½½á¹ûÊı×éÖĞ 
+   result->zhengfu = num1->zhengfu;	//ä¿å­˜ç¬¦å· 
+   for (i = 0; i < num1->digit; i++)	//å°†è¢«åŠ æ•°å¤åˆ¶åˆ°ç»“æœæ•°ç»„ä¸­ 
 	  result->num[i] = num1->num[i];
-   for (i = 0; i < num2->digit; i++)	//num2ÖĞµÄÊıĞ¡£¬¿ÉÄÜÎ»ÊıÒ²Ğ¡Ğ©
+   for (i = 0; i < num2->digit; i++)	//num2ä¸­çš„æ•°å°ï¼Œå¯èƒ½ä½æ•°ä¹Ÿå°äº›
    {
-	  result->num[i] = result->num[i] + num2->num[i] + carry;	//½«¶ÔÓ¦Î»µÄÊıºÍ½øÎ»ÊıÏà¼Ó 
-	  carry = result->num[i] / 10;	//¼ÆËã½øÎ»Êı¾İ
-	  result->num[i] = result->num[i] % 10;	//±£ÁôÒ»Î»     
+	  result->num[i] = result->num[i] + num2->num[i] + carry;	//å°†å¯¹åº”ä½çš„æ•°å’Œè¿›ä½æ•°ç›¸åŠ  
+	  carry = result->num[i] / 10;	//è®¡ç®—è¿›ä½æ•°æ®
+	  result->num[i] = result->num[i] % 10;	//ä¿ç•™ä¸€ä½     
    }
-   if (carry)	//Èô×îºó»¹ÓĞ½øÎ» 
+   if (carry)	//è‹¥æœ€åè¿˜æœ‰è¿›ä½ 
 	  result->num[i] = result->num[i] + carry;
-   BigIntTrim(result);	//ÕûÀí½á¹û 
+   BigIntTrim(result);	//æ•´ç†ç»“æœ 
 }
-void BigIntSub1(pBIGINT num1, pBIGINT num2, pBIGINT result) //ÒìºÅÏà¼õº¯Êı
+void BigIntSub1(pBIGINT num1, pBIGINT num2, pBIGINT result) //å¼‚å·ç›¸å‡å‡½æ•°
 {
    int i, borrow;
-   result->zhengfu = num1->zhengfu;	//Òònum1¾ø¶ÔÖµ±Ènum2´ó£¬½á¹û·ûºÅÓënum1ÏàÍ¬ 
+   result->zhengfu = num1->zhengfu;	//å› num1ç»å¯¹å€¼æ¯”num2å¤§ï¼Œç»“æœç¬¦å·ä¸num1ç›¸åŒ 
    borrow = 0;
-   for (i = 0; i < num1->digit; i++)	//½«±»¼õÊıµÄÄÚÈİ¸´ÖÆµ½½á¹ûÖĞ 
+   for (i = 0; i < num1->digit; i++)	//å°†è¢«å‡æ•°çš„å†…å®¹å¤åˆ¶åˆ°ç»“æœä¸­ 
 	  result->num[i] = num1->num[i];
    for (i = 0; i <= num2->digit; i++)
    {
-	  result->num[i] = result->num[i] - num2->num[i] - borrow;	//num1¼õÈ¥num2£¬²¢¼õÈ¥µÍÎ»µÄ½èÎ» 
-	  if (result->num[i] < 0)	//ÈôÎª¸ºÊı 
+	  result->num[i] = result->num[i] - num2->num[i] - borrow;	//num1å‡å»num2ï¼Œå¹¶å‡å»ä½ä½çš„å€Ÿä½ 
+	  if (result->num[i] < 0)	//è‹¥ä¸ºè´Ÿæ•° 
 	  {
-		 result->num[i] = 10 + result->num[i];	//Ïò¸ßÎ»½èÎ» 
-		 borrow = 1;	//ÉèÖÃ½èÎ»Öµ 
+		 result->num[i] = 10 + result->num[i];	//å‘é«˜ä½å€Ÿä½ 
+		 borrow = 1;	//è®¾ç½®å€Ÿä½å€¼ 
 	  } else
 		 borrow = 0;
    }
@@ -170,161 +172,161 @@ void BigIntSub1(pBIGINT num1, pBIGINT num2, pBIGINT result) //ÒìºÅÏà¼õº¯Êı
 	  else
 		 break;
    }
-   result->digit = i;	//±£´æ½á¹ûÎ»Êı*/
+   result->digit = i;	//ä¿å­˜ç»“æœä½æ•°*/
 }
-void BigIntSub(pBIGINT num1, pBIGINT num2, pBIGINT result) //¼õ·¨º¯Êı 
+void BigIntSub(pBIGINT num1, pBIGINT num2, pBIGINT result) //å‡æ³•å‡½æ•° 
 {
-   num2->zhengfu = -1 * num2->zhengfu;	//½«¼õÊıµÄ·ûºÅÈ¡·´ 
-   BigIntAdd(num1, num2, result);	//µ÷ÓÃ¼Ó·¨º¯Êı 
+   num2->zhengfu = -1 * num2->zhengfu;	//å°†å‡æ•°çš„ç¬¦å·å–å 
+   BigIntAdd(num1, num2, result);	//è°ƒç”¨åŠ æ³•å‡½æ•° 
 }
 void BigIntMul(pBIGINT num1, pBIGINT num2, pBIGINT result)
 {
    char carry, temp;
    int i, j, pos;
-   for (i = 0; i < num1->digit + num2->digit; i++)	//½á¹ûÊı×éºÍÖĞ¼äÊı×éÇå0 
+   for (i = 0; i < num1->digit + num2->digit; i++)	//ç»“æœæ•°ç»„å’Œä¸­é—´æ•°ç»„æ¸…0 
 	  result->num[i] = 0;
-   for (i = 0; i < num2->digit; i++)	//ÓÃ³ËÊıµÄÃ¿1Î»³ËÒÔ±»³ËÊı 
+   for (i = 0; i < num2->digit; i++)	//ç”¨ä¹˜æ•°çš„æ¯1ä½ä¹˜ä»¥è¢«ä¹˜æ•° 
    {
-	  carry = 0;	//Çå³ı½øÎ»
-	  for (j = 0; j < num1->digit; j++)	//±»³ËÊıµÄÃ¿1Î» 
+	  carry = 0;	//æ¸…é™¤è¿›ä½
+	  for (j = 0; j < num1->digit; j++)	//è¢«ä¹˜æ•°çš„æ¯1ä½ 
 	  {
-		 temp = num2->num[i] * num1->num[j] + carry;	//Ïà³Ë²¢¼ÓÉÏ½øÎ»
-		 carry = temp / 10;	//¼ÆËã½øÎ»carry
-		 temp = temp % 10;	//¼ÆËãµ±Ç°Î»µÄÖµ
+		 temp = num2->num[i] * num1->num[j] + carry;	//ç›¸ä¹˜å¹¶åŠ ä¸Šè¿›ä½
+		 carry = temp / 10;	//è®¡ç®—è¿›ä½carry
+		 temp = temp % 10;	//è®¡ç®—å½“å‰ä½çš„å€¼
 		 pos = i + j;
-		 result->num[pos] += temp;	//¼ÆËã½á¹ûÀÛ¼Óµ½ÁÙÊ±Êı×éÖĞ 
-		 carry = carry + result->num[pos] / 10;	//¼ÆËã½øÎ» 
+		 result->num[pos] += temp;	//è®¡ç®—ç»“æœç´¯åŠ åˆ°ä¸´æ—¶æ•°ç»„ä¸­ 
+		 carry = carry + result->num[pos] / 10;	//è®¡ç®—è¿›ä½ 
 		 result->num[pos] = result->num[pos] % 10;
 	  }
 	  if (carry > 0)
 	  {
-		 result->num[i + j] = carry;	//¼ÓÉÏ×î¸ßÎ»½øÎ»
-		 result->digit = i + j + 1;	//±£´æ½á¹ûÎ»Êı 
+		 result->num[i + j] = carry;	//åŠ ä¸Šæœ€é«˜ä½è¿›ä½
+		 result->digit = i + j + 1;	//ä¿å­˜ç»“æœä½æ•° 
 	  } else
-		 result->digit = i + j;	//±£´æ½á¹ûÎ»Êı 
+		 result->digit = i + j;	//ä¿å­˜ç»“æœä½æ•° 
    }
-   result->zhengfu = num1->zhengfu * num2->zhengfu;	//½á¹ûµÄ·ûºÅ 
+   result->zhengfu = num1->zhengfu * num2->zhengfu;	//ç»“æœçš„ç¬¦å· 
 }
-void BigIntDiv(pBIGINT num1, pBIGINT num2, pBIGINT result, pBIGINT residue) //³ı·¨º¯Êıº¯Êı ¡·´ õÈ¥µÍÎ»µÄ½èÎ» ënum1ÏàÍ¬ Êı
+void BigIntDiv(pBIGINT num1, pBIGINT num2, pBIGINT result, pBIGINT residue) //é™¤æ³•å‡½æ•°å‡½æ•° ã€‹ï¿½ è·ã‚µè‡€åæ…•æ ‰ï¿½ é›—um1ç›¸åŒ æ•°
 {
    BIGINT quo1, residuo1, quo2;
-   int i, j, k, m;				//k±£´æÊÔÉÌ½á¹û,m±£´æÉÌµÄÎ»Êı 
+   int i, j, k, m;				//kä¿å­˜è¯•å•†ç»“æœ,mä¿å­˜å•†çš„ä½æ•° 
    char t;
-   result->zhengfu = num1->zhengfu * num2->zhengfu;	//ÉÌµÄ·ûºÅ
-   residue->num = (char *) malloc(sizeof(char) * num2->digit);	//·ÖÅäÓàÊıµÄÄÚ´æ¿Õ¼ä
-   residue->digit = num2->digit+1;	//ÉèÖÃÓàÊıµÄ³õÊ¼Î»ÊıÓë³ıÊıÏàÍ¬ 
-   for (i = 0; i < residue->digit; i++)	//½«ÓàÊıÈ«²¿Çå0 
+   result->zhengfu = num1->zhengfu * num2->zhengfu;	//å•†çš„ç¬¦å·
+   residue->num = (char *) malloc(sizeof(char) * num2->digit);	//åˆ†é…ä½™æ•°çš„å†…å­˜ç©ºé—´
+   residue->digit = num2->digit+1;	//è®¾ç½®ä½™æ•°çš„åˆå§‹ä½æ•°ä¸é™¤æ•°ç›¸åŒ 
+   for (i = 0; i < residue->digit; i++)	//å°†ä½™æ•°å…¨éƒ¨æ¸…0 
 	  residue->num[i] = 0;
    m = 0;
    for (i = num1->digit - 1; i >= 0; i--)
    {
-	  residue->digit=num2->digit+1; //ÖØĞÂÉèÖÃÓàÊıµÄÎ»Êı±È³ıÊı¶àÒ»Î» 
-	  for (j = residue->digit - 1; j > 0; j--)	//ÒÆÓàÊı 
-		 residue->num[j] = residue->num[j - 1];	//½«ĞòºÅµÍÎ»µÄÊı¾İÒÆÏò¸ßÎ»(Êµ¼ÊÊÇ½«ÓàÊıÖĞµÄ×î¸ßÎ»È¥³ı) 
-	  residue->num[0] = num1->num[i];	//¸´ÖÆ±»³ıÊıÖĞµÄÒ»Î»µ½ÓàÊıµÄ×îµÍÎ»ÖĞ 
-	  BigIntTrim(residue);//ÕûÀíÓàÊı 
-      k = 0;	//ÊÔÉÌ
-	  while (BigIntEqual(residue, num2) >= 0)	//±È½ÏÓàÊıÓë³ıÊıµÄ´óĞ¡
+	  residue->digit=num2->digit+1; //é‡æ–°è®¾ç½®ä½™æ•°çš„ä½æ•°æ¯”é™¤æ•°å¤šä¸€ä½ 
+	  for (j = residue->digit - 1; j > 0; j--)	//ç§»ä½™æ•° 
+		 residue->num[j] = residue->num[j - 1];	//å°†åºå·ä½ä½çš„æ•°æ®ç§»å‘é«˜ä½(å®é™…æ˜¯å°†ä½™æ•°ä¸­çš„æœ€é«˜ä½å»é™¤) 
+	  residue->num[0] = num1->num[i];	//å¤åˆ¶è¢«é™¤æ•°ä¸­çš„ä¸€ä½åˆ°ä½™æ•°çš„æœ€ä½ä½ä¸­ 
+	  BigIntTrim(residue);//æ•´ç†ä½™æ•° 
+      k = 0;	//è¯•å•†
+	  while (BigIntEqual(residue, num2) >= 0)	//æ¯”è¾ƒä½™æ•°ä¸é™¤æ•°çš„å¤§å°
 	  {
-		 BigIntSub1(residue, num2, residue);	//ÓÃÓàÊı¼õÈ¥³ıÊı£¬²îÖµ±£´æÔÚÓàÊıÖĞ
-		 k++;	//ÊÔÉÌ¼Ó1 
+		 BigIntSub1(residue, num2, residue);	//ç”¨ä½™æ•°å‡å»é™¤æ•°ï¼Œå·®å€¼ä¿å­˜åœ¨ä½™æ•°ä¸­
+		 k++;	//è¯•å•†åŠ 1 
 	  }
-	  result->num[m++] = k;	//±£´æÉÌ    
+	  result->num[m++] = k;	//ä¿å­˜å•†    
    }
-   result->digit = m;	//±£´æÉÌµÄÎ»Êı 
-   for (i = 0; i < m / 2; i++)	//½«ÉÌ¸÷Î»·´×ª(ÔÚ¼ÆËã¹ı³ÌÖĞĞòºÅ0±£´æµÄÊÇÉÌµÄ¸ßÎ») 
+   result->digit = m;	//ä¿å­˜å•†çš„ä½æ•° 
+   for (i = 0; i < m / 2; i++)	//å°†å•†å„ä½åè½¬(åœ¨è®¡ç®—è¿‡ç¨‹ä¸­åºå·0ä¿å­˜çš„æ˜¯å•†çš„é«˜ä½) 
    {
 	  t = result->num[i];
 	  result->num[i] = result->num[m - 1 - i];
 	  result->num[m - 1 - i] = t;
    }
-   BigIntTrim(result);	//ÕûÀíÉÌ 
-   BigIntTrim(residue);	//ÕûÀíÓàÊı 
+   BigIntTrim(result);	//æ•´ç†å•† 
+   BigIntTrim(residue);	//æ•´ç†ä½™æ•° 
 }
 int main()
 {
-   BIGINT num1, num2, result, residue;	//²ÎÓëÔËËãµÄÊı¡¢½á¹û¡¢ÓàÊı 
+   BIGINT num1, num2, result, residue;	//å‚ä¸è¿ç®—çš„æ•°ã€ç»“æœã€ä½™æ•° 
    int i = 0, len;
    char op;
-   printf("ÊäÈë×î´óÊıµÄÎ»Êı:");
+   printf("è¾“å…¥æœ€å¤§æ•°çš„ä½æ•°:");
    scanf("%d", &len);
    if (!(num1.num = (char *) malloc(sizeof(char) * (len + 1))))
    {
-	  printf("ÄÚ´æ·ÖÅäÊ§°Ü!\n");
+	  printf("å†…å­˜åˆ†é…å¤±è´¥!\n");
 	  exit(0);
    }
    num1.digit = len + 1;
    if (!(num2.num = (char *) malloc(sizeof(char) * (len + 1))))
    {
-	  printf("ÄÚ´æ·ÖÅäÊ§°Ü!\n");
+	  printf("å†…å­˜åˆ†é…å¤±è´¥!\n");
 	  exit(0);
    }
    num2.digit = len + 1;
    if (!(result.num = (char *) malloc(sizeof(char) * (2 * len + 1))))
    {
-	  printf("ÄÚ´æ·ÖÅäÊ§°Ü!\n");
+	  printf("å†…å­˜åˆ†é…å¤±è´¥!\n");
 	  exit(0);
    }
    result.digit = 2 * len + 1;
-   for (i = 0; i < result.digit; i++)	//Çå¿Õ½á¹û¼¯ 
+   for (i = 0; i < result.digit; i++)	//æ¸…ç©ºç»“æœé›† 
 	  result.num[i] = 0;
-   printf("Ñ¡Ôñ´óÕûÊıµÄÔËËã(+¡¢-¡¢*¡¢/):");
+   printf("é€‰æ‹©å¤§æ•´æ•°çš„è¿ç®—(+ã€-ã€*ã€/):");
    fflush(stdin);
    scanf("%c", &op);
    switch (op)
    {
    case '+':
-	  printf("\nÊäÈë±»¼ÓÊı:");
+	  printf("\nè¾“å…¥è¢«åŠ æ•°:");
 	  scanf("%s", num1.num);
-	  printf("\nÊäÈë¼ÓÊı:");
+	  printf("\nè¾“å…¥åŠ æ•°:");
 	  scanf("%s", num2.num);
 	  BigIntTrans(&num1);
 	  BigIntTrans(&num2);
-	  BigIntAdd(&num1, &num2, &result);	//¼Ó·¨ 
+	  BigIntAdd(&num1, &num2, &result);	//åŠ æ³• 
 	  break;
    case '-':
-	  printf("\nÊäÈë±»¼õÊı:");
+	  printf("\nè¾“å…¥è¢«å‡æ•°:");
 	  scanf("%s", num1.num);
-	  printf("\nÊäÈë¼õÊı:");
+	  printf("\nè¾“å…¥å‡æ•°:");
 	  scanf("%s", num2.num);
 	  BigIntTrans(&num1);
 	  BigIntTrans(&num2);
-	  BigIntSub(&num1, &num2, &result);	//¼õ·¨ 
+	  BigIntSub(&num1, &num2, &result);	//å‡æ³• 
 	  break;
    case '*':
-	  printf("\nÊäÈë±»³ËÊı:");
+	  printf("\nè¾“å…¥è¢«ä¹˜æ•°:");
 	  scanf("%s", num1.num);
-	  printf("\nÊäÈë³ËÊı:");
+	  printf("\nè¾“å…¥ä¹˜æ•°:");
 	  scanf("%s", num2.num);
 	  BigIntTrans(&num1);
 	  BigIntTrans(&num2);
-	  BigIntMul(&num1, &num2, &result);	//³Ë·¨ 
+	  BigIntMul(&num1, &num2, &result);	//ä¹˜æ³• 
 	  break;
    case '/':
-	  printf("\nÊäÈë±»³ıÊı:");
+	  printf("\nè¾“å…¥è¢«é™¤æ•°:");
 	  scanf("%s", num1.num);
-	  printf("\nÊäÈë³ıÊı:");
+	  printf("\nè¾“å…¥é™¤æ•°:");
 	  scanf("%s", num2.num);
 	  BigIntTrans(&num1);
 	  BigIntTrans(&num2);
-	  if (num2.digit == 1 && num2.num[0] == 0)	//´óÕûÊıÎª0
-		 printf("³ıÊı²»ÄÜÎª0!\n");
+	  if (num2.digit == 1 && num2.num[0] == 0)	//å¤§æ•´æ•°ä¸º0
+		 printf("é™¤æ•°ä¸èƒ½ä¸º0!\n");
 	  else
-		 BigIntDiv(&num1, &num2, &result, &residue);	//³ı·¨·¨ 
+		 BigIntDiv(&num1, &num2, &result, &residue);	//é™¤æ³•æ³• 
 	  break;
    }
    if (op == '/')
    {
-	  if (!(num2.digit == 1 && num2.num[0] == 0))	//Îª³ı·¨ÇÒ³ıÊı²»Îª0
+	  if (!(num2.digit == 1 && num2.num[0] == 0))	//ä¸ºé™¤æ³•ä¸”é™¤æ•°ä¸ä¸º0
 	  {
-		 printf("ÉÌ:");
+		 printf("å•†:");
 		 BigIntPrint(&result);
-		 printf("\tÓàÊı:");
+		 printf("\tä½™æ•°:");
 		 BigIntPrint(&residue);
 	  }
    } else
    {
-	  printf("\n½á¹û:");
+	  printf("\nç»“æœ:");
 	  BigIntPrint(&result);
    }
 
