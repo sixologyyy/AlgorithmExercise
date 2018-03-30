@@ -8,6 +8,7 @@ Chapter 2 : some simple algorithm
 4.eight queens
 5.put in box
 6.round robin
+7.big num multiply (3 versions)
 
 Chapter 3 : data structure / linar table
 1.link list
@@ -27,3 +28,23 @@ Chapter 5 : data structure / graph
 5.dijkstra algorithm
 6.floyd algorithm
 7.spfa algorithm
+
+Chapter 6 : search algorithm
+1.seq search
+2.binary search
+3.binary search tree
+4.hash
+5.index search
+
+Chapter 7 : sort algorithm
+1.insert sort
+2.shell sort
+3.bubble sort
+4.quick sort
+5.select sort
+6.heap sort
+7.merge sort
+8.solve inverse pair by merge sort
+9.radix sort
+
+Chapter 10 : some numeric problem
