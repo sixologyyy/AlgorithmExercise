@@ -1,5 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define STACK_INIT_SIZE  100
 #define SIZE_INCREMENT  5
@@ -55,13 +56,15 @@ int StackFree(SQSTACK s) //释放栈
 	return 1;
 }
 
-char *DecToOther(unsigned long num,int sys) //10进制转换为其他进制，返回一个字符串 
-{//num需转换的数据,sys为需转换的进制 
+//10进制转换为其他进制，返回一个字符串，num需转换的数据,sys为需转换的进制 
+char *DecToOther(unsigned long num,int sys) 
+{
 	SqStack s;
 	int rem,i,length,num1,inc=1;
 	char *out,*p; //控制输出字符串 
 	if(!StackInit(&s)) //初始化栈失败 
 		exit(0);//退出
+
 	do{
 		if(num<sys) //被除数小于进制 
 		{
@@ -76,14 +79,17 @@ char *DecToOther(unsigned long num,int sys) //10进制转换为其他进制，�
 			num=(num-rem)/sys; //商
 		}
 	}while(num); //dividend不为0
+
 	if(sys==16) //16进制有两个字符的前缀 
 		inc++;
-	length=StackLength(&s); //获取栈的长度(需输出元素的个数) 
+	length=StackLength(&s); //获取栈的长度(需输出元素的个数)
+
 	if(!(out=(char *)malloc(sizeof(char)*(length+inc))))//若分配内存失败
 	{
 		printf("内存分配失败!\n");
 		exit(0);
-	} 
+	}
+
 	p=out; //指针p指向分配内存首地址 
 	*p++='0';//添加前缀    
 	if(sys==16) //16进制的前缀 
@@ -101,12 +107,13 @@ char *DecToOther(unsigned long num,int sys) //10进制转换为其他进制，�
 	return (out);//返回字符串 
 }
 
-int OtherToDec(int sys,char *in_str) //其他进制转换为10进制(输入数)
-{ //sys进制,arrat_char需处理的字符串 
+//其他进制转换为10进制(输入数)，sys进制,arrat_char需处理的字符串 
+int OtherToDec(int sys,char *in_str) 
+{
 	int i,j,length,start=0;
 	unsigned long sum=0,pow;
 	int *in_bit;
-	
+
 	length=strlen(in_str); //字符串的长度 
 	if(!(in_bit=(int *)malloc(sizeof(int)*length)))
 	{
@@ -116,6 +123,7 @@ int OtherToDec(int sys,char *in_str) //其他进制转换为10进制(输入数)
 	if(in_str[0]=='-') //为负数，跳过符号 
 		start++;
 	j=0;
+
 	for(i=length-1;i>=start;i--)
 	{
 		if(in_str[i]>='0' && in_str[i]<='9') //为数字0~9 
@@ -159,7 +167,7 @@ int main()
 		scanf("%d",&new1);
 		if(10==new1) //若是转换为10进制 
 		{
-			printf("\n将%d进制数%s\n转换为10进制数:%d\n",old,str,num10); 
+			printf("\n将%d进制数%s\n转换为10进制数:%lu\n",old,str,num10); 
 		}
 		else
 		{
@@ -167,8 +175,8 @@ int main()
 			printf("将%d进制数%s\n转换为%d进制数:%s\n",old,str,new1,other);
 		}
 		printf("\n继续(Y/N)?");
-		select=getch();
+		select=getchar();
 	}while(select=='y' || select =='Y');
-	getch();
+
 	return 0;
 }
