@@ -48,3 +48,7 @@ Chapter 7 : sort algorithm
 9.radix sort
 
 Chapter 10 : some numeric problems
+1.big integer's +-*/
+2.number system conversion
+3.reverse polish notation
+4.factorization
