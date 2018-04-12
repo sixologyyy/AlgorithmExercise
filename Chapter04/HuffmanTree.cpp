@@ -144,13 +144,13 @@ void CreateHuffmanTable(HuffmanTree *ht,int n,HuffmanCode *hc)
                 cd[--start]='0'; //编码为0 
             else //若结点是父结点的右子树 
                 cd[--start]='1'; //编码为1 
-        current=parent; //设置当前结点指向父结点 
-        parent=ht[parent].parent; //获取当前结点的父结点序号    
-    }
+            current=parent; //设置当前结点指向父结点 
+            parent=ht[parent].parent; //获取当前结点的父结点序号    
+        }
 
-    //hc新建一行
-    hc[i-1]=(char*)malloc(sizeof(char)*(n-start));
-    strcpy(hc[i-1],&cd[start]); //复制生成的编码           
+        //hc新建一行
+        hc[i-1]=(char*)malloc(sizeof(char)*(n-start));
+        strcpy(hc[i-1],&cd[start]); //复制生成的编码           
     }
     free(cd);
 }
