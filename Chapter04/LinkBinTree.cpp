@@ -35,10 +35,9 @@ typedef struct LinkBinTree
 //--------基础函数--------
 
 //  1.初始化根节点
-LBT *initLinkBinTree()
+LBT *initLinkBinTree(LBT *bt)
 {
 	printf("初始化：");
-	LBT *bt;
 	bt=(LBT *)malloc(sizeof(LBT));
 	if(bt!=NULL)
 	{
@@ -490,7 +489,7 @@ int main()
 	oper1=oper;
 
 	//初始化根节点
-	//bt=initLinkBinTree();
+	//bt=initLinkBinTree(bt);
 
 	//按父节点值添加节点
 	//for(int i=0;i<10;i++)
