@@ -85,6 +85,7 @@ void buildLDRThreadBinTree(TBT *bt,TBT *&previous)
 		else
 			previous->rflag=subtree;  //若前驱右子节点不为空，右标志为子树
 
+		//更新前驱之后再调用右子节点
 		previous=bt;
 		buildLDRThreadBinTree(bt->right,previous);   //递归调用，将右子树线索化
 	}
@@ -93,7 +94,7 @@ void buildLDRThreadBinTree(TBT *bt,TBT *&previous)
 //  2.查找后继节点
 TBT *findNextOfThreadBinTree(TBT *bt)
 {
-	TBT *nextNode;
+	TBT *nextNode=NULL;
 	if(!bt)
 		return NULL;
 	if(bt->rflag==thread)   //右子树为线索
@@ -110,7 +111,7 @@ TBT *findNextOfThreadBinTree(TBT *bt)
 //  3.查找前驱节点
 TBT *findPreOfThreadBinTree(TBT *bt)
 {
-	TBT *preNode;
+	TBT *preNode=NULL;
 	if(!bt)
 		return NULL;
 	if(bt->lflag==thread)    //左子树为线索

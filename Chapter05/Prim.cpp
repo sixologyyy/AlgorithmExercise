@@ -23,7 +23,7 @@ void Prim(MatrixGraph G)
 	int weight[VERTEX_MAX];        //weight[j]记录U集合中的点到j点权值最小的那个
 	int tempVertex[VERTEX_MAX];    //tempVertex[j]记录U集合中到j点权值最小的节点，以及标记已使用的节点，USED为在U集合中
 
-	//初始化权值和临时顶点
+	//初始化权值和临时顶点，U集合加入第一个顶点
 	for(i=1;i<G.VertexNum;i++)
 	{
 		weight[i]=G.Edges[0][i];
