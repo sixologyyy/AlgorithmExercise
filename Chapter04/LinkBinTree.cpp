@@ -54,7 +54,7 @@ LBT *initLinkBinTree(LBT *bt)
 	return NULL;
 }
 
-//  2.添加新节点,bt为父节点，node为子节点，n=l为添加左节点，r为右节点
+//  2.添加新节点,bt为父节点，node为子节点，c=l为添加左节点，r为右节点
 int addTreeNode(LBT *bt,LBT *node,char c) 
 {
 	if(bt==NULL)
@@ -130,8 +130,8 @@ int depthOfLinkBinTree(LBT *bt)
 		dep2 = depthOfLinkBinTree(bt->right); //右子树深度 (递归调用)
 		if(dep1>dep2)
 			return dep1 + 1; 
-	else
-		return dep2 + 1; 
+		else
+			return dep2 + 1; 
 	} 
 } 
 
@@ -315,10 +315,10 @@ void LRDNoRecur1(LBT *bt,void (*oper)(LBT *p))
 			}
 			else if(stack[top].firstOut==2)     //第二次出现在栈顶，出栈并打印
 			{
-				stack[top].firstOut=1;  //栈里面的位置可能重复用到，要重置firstOut
+				stack[top].firstOut=1;    //注意，栈里面的位置还会用到，要重置firstOut
 				oper(p);
 				top--;
-				p=NULL;   //p指向NULL进行下一次出栈，少了这一句会死循环
+				p=NULL;                  //注意，p指向NULL进行下一次出栈，少了这一句会死循环
 			}
 			else
 				printf("栈错误\n");
@@ -361,7 +361,7 @@ void LRDNoRecur2(LBT *bt,void (*oper)(LBT *p))
 }
 
 //  12.按层遍历二叉树，用循环队列实现
-//    根节点先进队，然后循环操作直到队列为空，操作为：出队->出队节点的左右子节点依次进队
+//    根节点先进队，然后循环操作直到队列为空，操作为：出队->处理该节点->出队节点的左右子节点依次进队
 void levelOfLinkBinTree(LBT *bt,void (*oper)(LBT *p)) //按层遍历 
 {
 	LBT *p;
