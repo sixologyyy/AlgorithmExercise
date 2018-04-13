@@ -39,7 +39,7 @@ int merge(int *array, int start,int mid,int end) {
 			array[k] = left[i];
 			i++;
 		}
-		//每个左边小于右边，产生一个逆序对
+		//每个左边大于右边，产生一个逆序对
 		//若left[i] > right[j]，则left[i...n1-1]这n1-i个数都大于right[j]，所以产生了n1-i个逆序对
 		else 
 		{

@@ -16,27 +16,29 @@ void QuickSort(int *a, int left, int right)
 	int j = right;
 	int key = a[left];
 	 
-	//当前组内寻找一遍
+	//该趟的任务是，把大于key的扔到key右边，小于key的扔到key左边
+	//循环结束条件是两个指针相遇
 	while(i < j)
 	{
-		//寻找结束的条件就是:
-		//1，找到一个小于或者大于key的数
-		//2，没有符合条件1的，并且i与j的大小没有反转
+		//右组，从最后向前寻找第一个小于key的数，给a[i]
 		while(i < j && key <= a[j])
-			j--;      //右组，从最后向前寻找第一个小于key的数，给a[i]
+			j--;
 		a[i] = a[j];
-		 
+		
+		//左组，从最前向后寻找第一个大于key的数，给a[j]	 
 		while(i < j && key >= a[i])
-			i++;      //左组，从最前向后寻找第一个大于key的数，给a[j]	 
+			i++;
 		a[j] = a[i];
 	}
-	 
-	a[i] = key;    //放回中间数
+	
+	//该趟完成后，把key放回中间位置
+	a[i] = key;
 
 	for(int t=0;t<MAX;t++)
 		printf("%d ",a[t]);
 	printf("\n");
 
+	//递归排序左右组
 	QuickSort(a, left, i - 1);
 	QuickSort(a, i + 1, right);
 }
